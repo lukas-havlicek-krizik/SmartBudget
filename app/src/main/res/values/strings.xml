@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SmartBudget</string>
+
+    <string-array name="spinnerKategoriePrijem">
+        <item>Práce</item>
+        <item>Kapesné</item>
+        <item>Dar</item>
+    </string-array>
 </resources>
