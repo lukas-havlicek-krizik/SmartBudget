@@ -6,4 +6,9 @@
         <item>Kapesné</item>
         <item>Dar</item>
     </string-array>
+    <string-array name="spinnerKategorieVydej">
+        <item>Jídlo</item>
+        <item>Doprava</item>
+        <item>Zábava</item>
+    </string-array>
 </resources>
