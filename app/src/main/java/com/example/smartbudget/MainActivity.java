@@ -25,8 +25,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void changeScreen(View view){
-        if(view.getId()==R.id.btnAddNew){
+    public void changeScreen(View view) {
+        if (view.getId()==R.id.btnLogin){
+            Intent intentLogin = new Intent(MainActivity.this, LoginPage.class);
+            startActivity(intentLogin);
+        }else if(view.getId()==R.id.btnAddNew){
             Intent intentAddNew = new Intent(MainActivity.this, AddNew.class);
             startActivity(intentAddNew);
         }
