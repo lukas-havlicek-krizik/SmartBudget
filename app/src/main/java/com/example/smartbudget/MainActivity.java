@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         }else if(view.getId()==R.id.btnAddNew){
             Intent intentAddNew = new Intent(MainActivity.this, AddNew.class);
             startActivity(intentAddNew);
+        }else if(view.getId()==R.id.btnOverview){
+            Intent intentOverview = new Intent(MainActivity.this, Overview.class);
+            startActivity(intentOverview);
         }
     }
 }
