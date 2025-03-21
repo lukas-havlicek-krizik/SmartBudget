@@ -14,13 +14,13 @@ public class DataBase extends SQLiteOpenHelper {
     public static final String ZAZNAM_KATEGORIE = "_kategorie";
 
     private static final String DATABASE_NAME = "SmartBudgetDB.db";
-    private static final int DATABASE_VERSION = 2025032101;
+    private static final int DATABASE_VERSION = 2025032102;
 
     private static final String DATABASE_CREATE = "create table " + ZAZNAMY
             + "("
             + ZAZNAM_ID + " integer primary key autoincrement, "
             + ZAZNAM_TYP + " text not null, "
-            + ZAZNAM_DATUM + " date not null, "
+            + ZAZNAM_DATUM + " text not null, "
             + ZAZNAM_CASTKA + " double not null, "
             + ZAZNAM_KATEGORIE + "text not null);";
 

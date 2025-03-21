@@ -1,11 +1,10 @@
 package com.example.smartbudget;
 
-import java.time.LocalDate;
 
 public class Zaznam {
     private int id;
     private String typ;
-    private LocalDate datum;
+    private String datum;
     private double castka;
     private String kategorie;
 
@@ -21,10 +20,10 @@ public class Zaznam {
     public void setTyp(String typ){
         this.typ = typ;
     }
-    public LocalDate getDatum(){
+    public String getDatum(){
         return datum;
     }
-    public void setDatum(LocalDate datum){
+    public void setDatum(String datum){
         this.datum = datum;
     }
     public double getCastka(){
