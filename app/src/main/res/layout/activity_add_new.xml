@@ -19,14 +19,14 @@
         app:layout_constraintVertical_bias="0.091" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/vstupDatum"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginTop="192dp"
         android:ems="10"
         android:hint="01.01.2025"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNumberDecimal"
+        app:layout_constraintBottom_toTopOf="@+id/vstupCastka"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextNumberDecimal"
+        android:id="@+id/vstupCastka"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_marginTop="268dp"
@@ -66,12 +66,13 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/ulozitZaznam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="56dp"
         android:layout_marginBottom="44dp"
         android:text="Uložit"
+        android:onClick="addZaznam"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
