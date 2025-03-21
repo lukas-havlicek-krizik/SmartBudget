@@ -16,9 +16,6 @@
             android:name=".Overview"
             android:exported="false" />
         <activity
-            android:name=".LoginPage"
-            android:exported="false" />
-        <activity
             android:name=".AddNew"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
