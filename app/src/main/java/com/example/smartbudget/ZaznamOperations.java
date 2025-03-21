@@ -54,8 +54,8 @@ public class ZaznamOperations {
         return newComment;
     }
 
-    public List ZAZNAMY() {
-        List ZAZNAMY = new ArrayList();
+    public List getAllZaznamy() {
+        List zaznamy = new ArrayList();
 
         Cursor cursor = database.query(DataBase.ZAZNAMY,
                 ZAZNAM_TABLE_COLUMNS, null, null, null, null, null);
@@ -63,12 +63,12 @@ public class ZaznamOperations {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Zaznam zaznam = parseZaznam(cursor);
-            ZAZNAMY.add(zaznam);
+            zaznamy.add(zaznam);
             cursor.moveToNext();
         }
 
         cursor.close();
-        return ZAZNAMY;
+        return zaznamy;
     }
 
     private Zaznam parseZaznam(Cursor cursor) {
