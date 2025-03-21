@@ -35,7 +35,7 @@ public class Zaznam {
     public String getKategorie(){
         return kategorie;
     }
-    public void setId(String kategorie){
+    public void setKategorie(String kategorie){
         this.kategorie = kategorie;
     }
 
