@@ -43,7 +43,15 @@ public class Overview extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Zaznam selectedZaznam = (Zaznam) parent.getItemAtPosition(position);
                 Intent intentDetails = new Intent(Overview.this, UpdateDetails.class);
+
+                intentDetails.putExtra("id", selectedZaznam.getId());
+                intentDetails.putExtra("typ", selectedZaznam.getTyp());
+                intentDetails.putExtra("datum", selectedZaznam.getDatum());
+                intentDetails.putExtra("castka", selectedZaznam.getCastka());
+                intentDetails.putExtra("kategorie", selectedZaznam.getKategorie());
+
                 startActivity(intentDetails);
             }
         });
