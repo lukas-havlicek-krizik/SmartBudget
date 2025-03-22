@@ -3,6 +3,7 @@ package com.example.smartbudget;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -38,6 +39,14 @@ public class Overview extends AppCompatActivity {
 
         ArrayAdapter<Zaznam> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, values);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intentDetails = new Intent(Overview.this, UpdateDetails.class);
+                startActivity(intentDetails);
+            }
+        });
 
     }
 
