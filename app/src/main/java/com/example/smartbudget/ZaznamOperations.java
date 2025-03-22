@@ -70,7 +70,10 @@ public class ZaznamOperations {
         cursor.close();
         return zaznamy;
     }
-
+    public void deleteZaznam(long id) {
+        database.delete(DataBase.ZAZNAMY, DataBase.ZAZNAM_ID
+                + " = " + id, null);
+    }
     private Zaznam parseZaznam(Cursor cursor) {
         Zaznam zaznam = new Zaznam();
         zaznam.setId((cursor.getInt(0)));

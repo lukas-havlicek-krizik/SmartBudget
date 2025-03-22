@@ -21,6 +21,10 @@ public class UpdateDetails extends AppCompatActivity {
     Spinner kategorie;
     Switch prepinac;
     ArrayAdapter<CharSequence> adapter;
+    private ZaznamOperations zaznamDBoperation;
+
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,8 @@ public class UpdateDetails extends AppCompatActivity {
         vstupCastka = findViewById(R.id.vstupCastka);
         kategorie = findViewById(R.id.kategorie);
         prepinac = findViewById(R.id.prepinac);
+        zaznamDBoperation = new ZaznamOperations(this);
+        zaznamDBoperation.open();
 
         prepinac.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -50,7 +56,7 @@ public class UpdateDetails extends AppCompatActivity {
             }
         });
 
-        Intent intent = getIntent();
+        intent = getIntent();
         if (intent != null) {
             vstupDatum.setText(intent.getStringExtra("datum"));
             vstupCastka.setText(String.valueOf(intent.getDoubleExtra("castka", 0)));
@@ -64,5 +70,25 @@ public class UpdateDetails extends AppCompatActivity {
     public void changeScreen(View view){
         Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
         startActivity(intentOverview);
+    }
+    public void smazatZaznam(View view){
+        intent = getIntent();
+        long defaultniHodnota = 0;
+        long idZIntent = intent.getLongExtra("id",defaultniHodnota);
+        zaznamDBoperation.deleteZaznam(idZIntent);
+        Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
+        startActivity(intentOverview);
+    }
+
+    @Override
+    protected void onResume() {
+        zaznamDBoperation.open();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        zaznamDBoperation.close();
+        super.onPause();
     }
 }
