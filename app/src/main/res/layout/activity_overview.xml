@@ -21,6 +21,7 @@
     <ListView
         android:layout_width="357dp"
         android:layout_height="502dp"
+        android:id="@+id/listView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
