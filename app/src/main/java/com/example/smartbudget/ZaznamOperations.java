@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 
 public class ZaznamOperations {
 
@@ -62,7 +63,8 @@ public class ZaznamOperations {
         List zaznamy = new ArrayList();
 
         Cursor cursor = database.query(DataBase.ZAZNAMY,
-                ZAZNAM_TABLE_COLUMNS, null, null, null, null, null);
+                ZAZNAM_TABLE_COLUMNS, null, null, null, null,
+                DataBase.ZAZNAM_DATUM_ROK + " DESC, " + DataBase.ZAZNAM_DATUM_MESIC + " DESC, " + DataBase.ZAZNAM_DATUM_DEN + " DESC");
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
