@@ -80,6 +80,35 @@ public class UpdateDetails extends AppCompatActivity {
         startActivity(intentOverview);
     }
 
+    public void zmenitZaznam(View view){
+        intent = getIntent();
+        String typ;
+        String datum;
+        double castka;
+        String kategorieVstup;
+
+        if(prepinac.isChecked()){
+            typ = "Výdaj";
+        }else{
+            typ = "Příjem";
+        }
+
+        datum = vstupDatum.getText().toString();
+
+        String castkaString = vstupCastka.getText().toString();
+        if (castkaString.isEmpty()) {
+            castka = 0;
+        } else {
+            castka = Double.parseDouble(castkaString);
+        }
+
+        kategorieVstup = kategorie.getSelectedItem().toString();
+
+        zaznamDBoperation.updateZaznam(intent.getLongExtra("id",0), typ, datum, castka, kategorieVstup);
+        Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
+        startActivity(intentOverview);
+    }
+
     @Override
     protected void onResume() {
         zaznamDBoperation.open();

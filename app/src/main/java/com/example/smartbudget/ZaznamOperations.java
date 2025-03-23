@@ -74,6 +74,15 @@ public class ZaznamOperations {
         database.delete(DataBase.ZAZNAMY, DataBase.ZAZNAM_ID
                 + " = " + id, null);
     }
+    public void updateZaznam(long id, String typ, String datum, double castka, String kategorie){
+        ContentValues values = new ContentValues();
+        values.put(DataBase.ZAZNAM_TYP, typ);
+        values.put(DataBase.ZAZNAM_DATUM, datum);
+        values.put(DataBase.ZAZNAM_CASTKA, castka);
+        values.put(DataBase.ZAZNAM_KATEGORIE, kategorie);
+
+        database.update(DataBase.ZAZNAMY, values, DataBase.ZAZNAM_ID + "=" + id,null);
+    }
     private Zaznam parseZaznam(Cursor cursor) {
         Zaznam zaznam = new Zaznam();
         zaznam.setId((cursor.getInt(0)));
