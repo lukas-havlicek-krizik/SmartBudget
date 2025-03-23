@@ -16,6 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.time.LocalDate;
+
 public class AddNew extends AppCompatActivity {
     Spinner spinner;
     Switch prepinac;
@@ -45,6 +47,10 @@ public class AddNew extends AppCompatActivity {
         vstupCastka = findViewById(R.id.vstupCastka);
         zaznamDBoperation = new ZaznamOperations(this);
         zaznamDBoperation.open();
+
+        vstupDatumDen.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
+        vstupDatumMesic.setText(String.valueOf(LocalDate.now().getMonthValue()));
+        vstupDatumRok.setText(String.valueOf(LocalDate.now().getYear()));
 
         adapter = ArrayAdapter.createFromResource(AddNew.this, R.array.spinnerKategoriePrijem, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
