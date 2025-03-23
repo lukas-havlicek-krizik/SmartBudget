@@ -102,6 +102,13 @@ public class AddNew extends AppCompatActivity {
         kategorie = spinner.getSelectedItem().toString();
 
         zaznamDBoperation.addZaznam(typ,datumDen,datumMesic,datumRok,castka,kategorie);
+
+        vstupDatumDen.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
+        vstupDatumMesic.setText(String.valueOf(LocalDate.now().getMonthValue()));
+        vstupDatumRok.setText(String.valueOf(LocalDate.now().getYear()));
+        vstupCastka.setText("");
+        prepinac.setChecked(false);
+
         Toast.makeText(this, "Záznam přidán.",Toast.LENGTH_LONG).show();
     }
     @Override
