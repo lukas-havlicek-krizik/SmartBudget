@@ -9,18 +9,23 @@ public class DataBase extends SQLiteOpenHelper {
     public static final String ZAZNAMY = "Zaznamy";
     public static final String ZAZNAM_ID = "_id";
     public static final String ZAZNAM_TYP = "_typ";
-    public static final String ZAZNAM_DATUM = "_datum";
+    public static final String ZAZNAM_DATUM_DEN = "_datumDen";
+    public static final String ZAZNAM_DATUM_MESIC = "_datumMesic";
+    public static final String ZAZNAM_DATUM_ROK = "_datumRok";
+
     public static final String ZAZNAM_CASTKA = "_castka";
     public static final String ZAZNAM_KATEGORIE = "_kategorie";
 
     private static final String DATABASE_NAME = "SmartBudgetDB.db";
-    private static final int DATABASE_VERSION = 2025032103;
+    private static final int DATABASE_VERSION = 2025032301;
 
     private static final String DATABASE_CREATE = "create table " + ZAZNAMY
             + "("
             + ZAZNAM_ID + " integer primary key autoincrement, "
             + ZAZNAM_TYP + " text not null, "
-            + ZAZNAM_DATUM + " text not null, "
+            + ZAZNAM_DATUM_DEN + " integer not null, "
+            + ZAZNAM_DATUM_MESIC + " integer not null, "
+            + ZAZNAM_DATUM_ROK + " integer not null, "
             + ZAZNAM_CASTKA + " double not null, "
             + ZAZNAM_KATEGORIE + " text not null);";
 

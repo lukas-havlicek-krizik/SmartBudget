@@ -19,19 +19,49 @@
         app:layout_constraintVertical_bias="0.091" />
 
     <EditText
-        android:id="@+id/vstupDatum"
-        android:layout_width="200dp"
+        android:id="@+id/vstupDatumDen"
+        android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="192dp"
         android:ems="10"
-        android:hint="01.01.2025"
-        android:inputType="date"
+        android:hint="DD"
+        android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/vstupCastka"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.293"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192" />
+        app:layout_constraintVertical_bias="0.038" />
+
+    <EditText
+        android:id="@+id/vstupDatumMesic"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="192dp"
+        android:ems="10"
+        android:hint="MM"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/vstupCastka"
+        app:layout_constraintEnd_toStartOf="@+id/vstupDatumRok"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toEndOf="@+id/vstupDatumDen"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.038" />
+
+    <EditText
+        android:id="@+id/vstupDatumRok"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="192dp"
+        android:ems="10"
+        android:hint="YYYY"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/vstupCastka"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.692"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.038" />
 
     <Spinner
         android:id="@+id/kategorie"

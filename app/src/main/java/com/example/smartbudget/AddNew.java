@@ -21,7 +21,9 @@ public class AddNew extends AppCompatActivity {
     Switch prepinac;
     ArrayAdapter<CharSequence> adapter;
     private ZaznamOperations zaznamDBoperation;
-    EditText vstupDatum;
+    EditText vstupDatumDen;
+    EditText vstupDatumMesic;
+    EditText vstupDatumRok;
     EditText vstupCastka;
 
     @Override
@@ -37,7 +39,9 @@ public class AddNew extends AppCompatActivity {
 
         spinner = findViewById(R.id.kategorie);
         prepinac = findViewById(R.id.prepinac);
-        vstupDatum = findViewById(R.id.vstupDatum);
+        vstupDatumDen = findViewById(R.id.vstupDatumDen);
+        vstupDatumMesic = findViewById(R.id.vstupDatumMesic);
+        vstupDatumRok = findViewById(R.id.vstupDatumRok);
         vstupCastka = findViewById(R.id.vstupCastka);
         zaznamDBoperation = new ZaznamOperations(this);
         zaznamDBoperation.open();
@@ -67,7 +71,9 @@ public class AddNew extends AppCompatActivity {
 
     public void addZaznam(View view) {
         String typ;
-        String datum;
+        int datumDen;
+        int datumMesic;
+        int datumRok;
         double castka;
         String kategorie;
 
@@ -76,7 +82,9 @@ public class AddNew extends AppCompatActivity {
         }else{
             typ = "Příjem";
         }
-        datum = vstupDatum.getText().toString();
+        datumDen = Integer.parseInt(vstupDatumDen.getText().toString());
+        datumMesic = Integer.parseInt(vstupDatumMesic.getText().toString());
+        datumRok = Integer.parseInt(vstupDatumRok.getText().toString());
 
         String castkaString = vstupCastka.getText().toString();
         if (castkaString.isEmpty()) {
@@ -87,7 +95,7 @@ public class AddNew extends AppCompatActivity {
 
         kategorie = spinner.getSelectedItem().toString();
 
-        zaznamDBoperation.addZaznam(typ,datum,castka,kategorie);
+        zaznamDBoperation.addZaznam(typ,datumDen,datumMesic,datumRok,castka,kategorie);
         Toast.makeText(this, "Záznam přidán.",Toast.LENGTH_LONG).show();
     }
     @Override

@@ -16,7 +16,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class UpdateDetails extends AppCompatActivity {
-    EditText vstupDatum;
+    EditText vstupDatumDen;
+    EditText vstupDatumMesic;
+    EditText vstupDatumRok;
     EditText vstupCastka;
     Spinner kategorie;
     Switch prepinac;
@@ -35,7 +37,9 @@ public class UpdateDetails extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        vstupDatum = findViewById(R.id.vstupDatum);
+        vstupDatumDen = findViewById(R.id.vstupDatumDen);
+        vstupDatumMesic = findViewById(R.id.vstupDatumMesic);
+        vstupDatumRok = findViewById(R.id.vstupDatumRok);
         vstupCastka = findViewById(R.id.vstupCastka);
         kategorie = findViewById(R.id.kategorie);
         prepinac = findViewById(R.id.prepinac);
@@ -58,7 +62,9 @@ public class UpdateDetails extends AppCompatActivity {
 
         intent = getIntent();
         if (intent != null) {
-            vstupDatum.setText(intent.getStringExtra("datum"));
+            vstupDatumDen.setText(String.valueOf(intent.getIntExtra("datumDen",0)));
+            vstupDatumMesic.setText(String.valueOf(intent.getIntExtra("datumMesic",0)));
+            vstupDatumRok.setText(String.valueOf(intent.getIntExtra("datumRok",0)));
             vstupCastka.setText(String.valueOf(intent.getDoubleExtra("castka", 0)));
             prepinac.setChecked(true);
             prepinac.setChecked(false);
@@ -83,7 +89,9 @@ public class UpdateDetails extends AppCompatActivity {
     public void zmenitZaznam(View view){
         intent = getIntent();
         String typ;
-        String datum;
+        int datumDen;
+        int datumMesic;
+        int datumRok;
         double castka;
         String kategorieVstup;
 
@@ -93,7 +101,9 @@ public class UpdateDetails extends AppCompatActivity {
             typ = "Příjem";
         }
 
-        datum = vstupDatum.getText().toString();
+        datumDen = Integer.parseInt(vstupDatumDen.getText().toString());
+        datumMesic = Integer.parseInt(vstupDatumMesic.getText().toString());
+        datumRok = Integer.parseInt(vstupDatumRok.getText().toString());
 
         String castkaString = vstupCastka.getText().toString();
         if (castkaString.isEmpty()) {
@@ -104,7 +114,7 @@ public class UpdateDetails extends AppCompatActivity {
 
         kategorieVstup = kategorie.getSelectedItem().toString();
 
-        zaznamDBoperation.updateZaznam(intent.getLongExtra("id",0), typ, datum, castka, kategorieVstup);
+        zaznamDBoperation.updateZaznam(intent.getLongExtra("id",0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup);
         Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
         startActivity(intentOverview);
     }

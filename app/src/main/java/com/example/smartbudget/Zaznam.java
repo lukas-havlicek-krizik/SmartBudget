@@ -4,7 +4,9 @@ package com.example.smartbudget;
 public class Zaznam {
     private int id;
     private String typ;
-    private String datum;
+    private int datumDen;
+    private int datumMesic;
+    private int datumRok;
     private double castka;
     private String kategorie;
 
@@ -20,11 +22,23 @@ public class Zaznam {
     public void setTyp(String typ){
         this.typ = typ;
     }
-    public String getDatum(){
-        return datum;
+    public int getDatumDen(){
+        return datumDen;
     }
-    public void setDatum(String datum){
-        this.datum = datum;
+    public void setDatumDen(int datumDen){
+        this.datumDen = datumDen;
+    }
+    public int getDatumMesic(){
+        return datumMesic;
+    }
+    public void setDatumMesic(int datumMesic){
+        this.datumMesic = datumMesic;
+    }
+    public int getDatumRok(){
+        return datumRok;
+    }
+    public void setDatumRok(int datumRok){
+        this.datumRok = datumRok;
     }
     public double getCastka(){
         return castka;
@@ -41,6 +55,6 @@ public class Zaznam {
 
     @Override
     public String toString(){
-        return datum + " " + " |" + typ + "| " + " "+ castka + " Kc ... " + kategorie;
+        return datumDen + "/" + datumMesic +  "/" + datumRok + " " + " | " + typ + " - " + kategorie + " | " + "\n"+ castka + " Kč";
     }
 }

@@ -15,7 +15,9 @@ public class ZaznamOperations {
     private DataBase dbHelper;
     private String[] ZAZNAM_TABLE_COLUMNS = { DataBase.ZAZNAM_ID,
                                                 DataBase.ZAZNAM_TYP,
-                                                DataBase.ZAZNAM_DATUM,
+                                                DataBase.ZAZNAM_DATUM_DEN,
+                                                DataBase.ZAZNAM_DATUM_MESIC,
+                                                DataBase.ZAZNAM_DATUM_ROK,
                                                 DataBase.ZAZNAM_CASTKA,
                                                 DataBase.ZAZNAM_KATEGORIE};
     private SQLiteDatabase database;
@@ -32,12 +34,14 @@ public class ZaznamOperations {
         dbHelper.close();
     }
 
-    public Zaznam addZaznam(String typ, String datum, double castka, String kategorie) {
+    public Zaznam addZaznam(String typ, int datumDen, int datumMesic, int datumRok, double castka, String kategorie) {
 
         ContentValues values = new ContentValues();
 
         values.put(DataBase.ZAZNAM_TYP, typ);
-        values.put(DataBase.ZAZNAM_DATUM, datum);
+        values.put(DataBase.ZAZNAM_DATUM_DEN, datumDen);
+        values.put(DataBase.ZAZNAM_DATUM_MESIC, datumMesic);
+        values.put(DataBase.ZAZNAM_DATUM_ROK, datumRok);
         values.put(DataBase.ZAZNAM_CASTKA, castka);
         values.put(DataBase.ZAZNAM_KATEGORIE, kategorie);
 
@@ -74,10 +78,12 @@ public class ZaznamOperations {
         database.delete(DataBase.ZAZNAMY, DataBase.ZAZNAM_ID
                 + " = " + id, null);
     }
-    public void updateZaznam(long id, String typ, String datum, double castka, String kategorie){
+    public void updateZaznam(long id, String typ, int datumDen, int datumMesic, int datumRok, double castka, String kategorie){
         ContentValues values = new ContentValues();
         values.put(DataBase.ZAZNAM_TYP, typ);
-        values.put(DataBase.ZAZNAM_DATUM, datum);
+        values.put(DataBase.ZAZNAM_DATUM_DEN, datumDen);
+        values.put(DataBase.ZAZNAM_DATUM_MESIC, datumMesic);
+        values.put(DataBase.ZAZNAM_DATUM_ROK, datumRok);
         values.put(DataBase.ZAZNAM_CASTKA, castka);
         values.put(DataBase.ZAZNAM_KATEGORIE, kategorie);
 
@@ -87,9 +93,11 @@ public class ZaznamOperations {
         Zaznam zaznam = new Zaznam();
         zaznam.setId((cursor.getInt(0)));
         zaznam.setTyp(cursor.getString(1));
-        zaznam.setDatum(cursor.getString(2));
-        zaznam.setCastka(cursor.getDouble(3));
-        zaznam.setKategorie(cursor.getString(4));
+        zaznam.setDatumDen(cursor.getInt(2));
+        zaznam.setDatumMesic(cursor.getInt(3));
+        zaznam.setDatumRok(cursor.getInt(4));
+        zaznam.setCastka(cursor.getDouble(5));
+        zaznam.setKategorie(cursor.getString(6));
         return zaznam;
     }
 }
