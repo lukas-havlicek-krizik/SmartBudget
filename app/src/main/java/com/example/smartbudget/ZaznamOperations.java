@@ -91,6 +91,44 @@ public class ZaznamOperations {
 
         database.update(DataBase.ZAZNAMY, values, DataBase.ZAZNAM_ID + "=" + id,null);
     }
+
+    public List getVydajeZaRok(){
+        List vydajeList = new ArrayList();
+
+        Cursor cursor = database.query(DataBase.ZAZNAMY,
+                new String[]{DataBase.ZAZNAM_DATUM_MESIC, "SUM (" + DataBase.ZAZNAM_CASTKA + ") AS vydajZaMesic"},
+                DataBase.ZAZNAM_DATUM_ROK + " = 2025 AND " + DataBase.ZAZNAM_TYP + " = 'Výdaj'", null,
+                DataBase.ZAZNAM_DATUM_MESIC,
+                null,
+                DataBase.ZAZNAM_DATUM_MESIC + " ASC");
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            int mesic = cursor.getInt(cursor.getColumnIndexOrThrow(DataBase.ZAZNAM_DATUM_MESIC));
+            double celkoveVydaje = cursor.getDouble(cursor.getColumnIndexOrThrow("vydajZaMesic"));
+            String mesicNazev;
+            switch (mesic) {
+                case 1: mesicNazev = "Leden"; break;
+                case 2: mesicNazev = "Únor"; break;
+                case 3: mesicNazev = "Březen"; break;
+                case 4: mesicNazev = "Duben"; break;
+                case 5: mesicNazev = "Květen"; break;
+                case 6: mesicNazev = "Červen"; break;
+                case 7: mesicNazev = "Červenec"; break;
+                case 8: mesicNazev = "Srpen"; break;
+                case 9: mesicNazev = "Září"; break;
+                case 10: mesicNazev = "Říjen"; break;
+                case 11: mesicNazev = "Listopad"; break;
+                case 12: mesicNazev = "Prosinec"; break;
+                default: mesicNazev = ""; break;
+            }
+            vydajeList.add(mesicNazev + ": " + celkoveVydaje);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        return vydajeList;
+    }
     private Zaznam parseZaznam(Cursor cursor) {
         Zaznam zaznam = new Zaznam();
         zaznam.setId((cursor.getInt(0)));
