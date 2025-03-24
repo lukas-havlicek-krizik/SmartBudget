@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         }else if(view.getId()==R.id.btnOverview){
             Intent intentOverview = new Intent(MainActivity.this, Overview.class);
             startActivity(intentOverview);
+        }else if(view.getId()==R.id.btnSpendings){
+            Intent intentSpendings = new Intent(MainActivity.this, Spendings.class);
+            startActivity(intentSpendings);
         }
     }
 }
