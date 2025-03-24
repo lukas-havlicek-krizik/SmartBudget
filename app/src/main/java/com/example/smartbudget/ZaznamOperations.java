@@ -92,12 +92,12 @@ public class ZaznamOperations {
         database.update(DataBase.ZAZNAMY, values, DataBase.ZAZNAM_ID + "=" + id,null);
     }
 
-    public List getVydajeZaRok(){
+    public List getVydajeZaRok(String rok){
         List vydajeList = new ArrayList();
 
         Cursor cursor = database.query(DataBase.ZAZNAMY,
                 new String[]{DataBase.ZAZNAM_DATUM_MESIC, "SUM (" + DataBase.ZAZNAM_CASTKA + ") AS vydajZaMesic"},
-                DataBase.ZAZNAM_DATUM_ROK + " = 2025 AND " + DataBase.ZAZNAM_TYP + " = 'Výdaj'", null,
+                DataBase.ZAZNAM_DATUM_ROK + " = ? AND " + DataBase.ZAZNAM_TYP + " = 'Výdaj'", new String[]{rok},
                 DataBase.ZAZNAM_DATUM_MESIC,
                 null,
                 DataBase.ZAZNAM_DATUM_MESIC + " ASC");
