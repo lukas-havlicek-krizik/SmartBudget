@@ -76,40 +76,46 @@ public class AddNew extends AppCompatActivity {
     }
 
     public void addZaznam(View view) {
-        String typ;
-        int datumDen;
-        int datumMesic;
-        int datumRok;
-        double castka;
-        String kategorie;
+        if(!(vstupDatumDen.getText().toString().isEmpty()
+                ||vstupDatumMesic.getText().toString().isEmpty()
+                ||vstupDatumRok.getText().toString().isEmpty())) {
+            String typ;
+            int datumDen;
+            int datumMesic;
+            int datumRok;
+            double castka;
+            String kategorie;
 
-        if(prepinac.isChecked()){
-            typ = "Výdaj";
-        }else{
-            typ = "Příjem";
+            if (prepinac.isChecked()) {
+                typ = "Výdaj";
+            } else {
+                typ = "Příjem";
+            }
+            datumDen = Integer.parseInt(vstupDatumDen.getText().toString());
+            datumMesic = Integer.parseInt(vstupDatumMesic.getText().toString());
+            datumRok = Integer.parseInt(vstupDatumRok.getText().toString());
+
+            String castkaString = vstupCastka.getText().toString();
+            if (castkaString.isEmpty()) {
+                castka = 0;
+            } else {
+                castka = Double.parseDouble(castkaString);
+            }
+
+            kategorie = spinner.getSelectedItem().toString();
+
+            zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie);
+
+            vstupDatumDen.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
+            vstupDatumMesic.setText(String.valueOf(LocalDate.now().getMonthValue()));
+            vstupDatumRok.setText(String.valueOf(LocalDate.now().getYear()));
+            vstupCastka.setText("");
+            prepinac.setChecked(false);
+
+            Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
         }
-        datumDen = Integer.parseInt(vstupDatumDen.getText().toString());
-        datumMesic = Integer.parseInt(vstupDatumMesic.getText().toString());
-        datumRok = Integer.parseInt(vstupDatumRok.getText().toString());
-
-        String castkaString = vstupCastka.getText().toString();
-        if (castkaString.isEmpty()) {
-            castka = 0;
-        } else {
-            castka = Double.parseDouble(castkaString);
-        }
-
-        kategorie = spinner.getSelectedItem().toString();
-
-        zaznamDBoperation.addZaznam(typ,datumDen,datumMesic,datumRok,castka,kategorie);
-
-        vstupDatumDen.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
-        vstupDatumMesic.setText(String.valueOf(LocalDate.now().getMonthValue()));
-        vstupDatumRok.setText(String.valueOf(LocalDate.now().getYear()));
-        vstupCastka.setText("");
-        prepinac.setChecked(false);
-
-        Toast.makeText(this, "Záznam přidán.",Toast.LENGTH_LONG).show();
     }
     @Override
     protected void onResume() {

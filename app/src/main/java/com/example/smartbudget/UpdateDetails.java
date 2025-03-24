@@ -8,6 +8,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -87,36 +88,42 @@ public class UpdateDetails extends AppCompatActivity {
     }
 
     public void zmenitZaznam(View view){
-        intent = getIntent();
-        String typ;
-        int datumDen;
-        int datumMesic;
-        int datumRok;
-        double castka;
-        String kategorieVstup;
+        if(!(vstupDatumDen.getText().toString().isEmpty()
+                ||vstupDatumMesic.getText().toString().isEmpty()
+                ||vstupDatumRok.getText().toString().isEmpty())) {
+            intent = getIntent();
+            String typ;
+            int datumDen;
+            int datumMesic;
+            int datumRok;
+            double castka;
+            String kategorieVstup;
 
-        if(prepinac.isChecked()){
-            typ = "Výdaj";
-        }else{
-            typ = "Příjem";
+            if (prepinac.isChecked()) {
+                typ = "Výdaj";
+            } else {
+                typ = "Příjem";
+            }
+
+            datumDen = Integer.parseInt(vstupDatumDen.getText().toString());
+            datumMesic = Integer.parseInt(vstupDatumMesic.getText().toString());
+            datumRok = Integer.parseInt(vstupDatumRok.getText().toString());
+
+            String castkaString = vstupCastka.getText().toString();
+            if (castkaString.isEmpty()) {
+                castka = 0;
+            } else {
+                castka = Double.parseDouble(castkaString);
+            }
+
+            kategorieVstup = kategorie.getSelectedItem().toString();
+
+            zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup);
+            Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
+            startActivity(intentOverview);
+        }else {
+            Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
         }
-
-        datumDen = Integer.parseInt(vstupDatumDen.getText().toString());
-        datumMesic = Integer.parseInt(vstupDatumMesic.getText().toString());
-        datumRok = Integer.parseInt(vstupDatumRok.getText().toString());
-
-        String castkaString = vstupCastka.getText().toString();
-        if (castkaString.isEmpty()) {
-            castka = 0;
-        } else {
-            castka = Double.parseDouble(castkaString);
-        }
-
-        kategorieVstup = kategorie.getSelectedItem().toString();
-
-        zaznamDBoperation.updateZaznam(intent.getLongExtra("id",0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup);
-        Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
-        startActivity(intentOverview);
     }
 
     @Override
