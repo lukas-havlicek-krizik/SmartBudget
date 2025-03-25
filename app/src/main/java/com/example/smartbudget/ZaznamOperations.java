@@ -59,12 +59,20 @@ public class ZaznamOperations {
         return newComment;
     }
 
-    public List getAllZaznamy() {
+    public List getAllZaznamy(boolean isChecked, int aktualMesic, int aktualRok) {
         List zaznamy = new ArrayList();
+        Cursor cursor;
 
-        Cursor cursor = database.query(DataBase.ZAZNAMY,
-                ZAZNAM_TABLE_COLUMNS, null, null, null, null,
-                DataBase.ZAZNAM_DATUM_ROK + " DESC, " + DataBase.ZAZNAM_DATUM_MESIC + " DESC, " + DataBase.ZAZNAM_DATUM_DEN + " DESC");
+        if(isChecked) {
+            cursor = database.query(DataBase.ZAZNAMY,
+                    ZAZNAM_TABLE_COLUMNS, DataBase.ZAZNAM_DATUM_MESIC + " = ? AND " + DataBase.ZAZNAM_DATUM_ROK + " = ?",
+                    new String[]{String.valueOf(aktualMesic), String.valueOf(aktualRok)}, null, null,
+                    DataBase.ZAZNAM_DATUM_ROK + " DESC, " + DataBase.ZAZNAM_DATUM_MESIC + " DESC, " + DataBase.ZAZNAM_DATUM_DEN + " DESC");
+        }else{
+            cursor = database.query(DataBase.ZAZNAMY,
+                    ZAZNAM_TABLE_COLUMNS, null, null, null, null,
+                    DataBase.ZAZNAM_DATUM_ROK + " DESC, " + DataBase.ZAZNAM_DATUM_MESIC + " DESC, " + DataBase.ZAZNAM_DATUM_DEN + " DESC");
+        }
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

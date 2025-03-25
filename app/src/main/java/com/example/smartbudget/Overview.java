@@ -1,10 +1,13 @@
 package com.example.smartbudget;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -13,11 +16,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Overview extends AppCompatActivity {
     private ZaznamOperations zaznamDBoperations;
     ListView listView;
+    CheckBox checkBox;
+    int aktualMesic;
+    int aktualRok;
+    boolean checked;
+    SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,13 +39,21 @@ public class Overview extends AppCompatActivity {
             return insets;
         });
         listView = findViewById(R.id.listView);
+        checkBox = findViewById(R.id.checkBox);
 
+        sp = getSharedPreferences("overview",MODE_PRIVATE);
+        checked = sp.getBoolean("pouzeAktualMesic",true);
+
+        checkBox.setChecked(checked);
+
+        aktualMesic = LocalDate.now().getMonthValue();
+        aktualRok = LocalDate.now().getYear();
 
         zaznamDBoperations = new ZaznamOperations(this);
         zaznamDBoperations.open();
 
-        List<Zaznam> values = zaznamDBoperations.getAllZaznamy();
 
+        List<Zaznam> values = zaznamDBoperations.getAllZaznamy(checkBox.isChecked(), aktualMesic, aktualRok);
         ArrayAdapter<Zaznam> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, values);
         listView.setAdapter(adapter);
 
@@ -57,7 +74,17 @@ public class Overview extends AppCompatActivity {
                 startActivity(intentDetails);
             }
         });
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor spE= sp.edit();
+                spE.putBoolean("pouzeAktualMesic",!checked);
+                spE.commit();
 
+                finish();
+                startActivity(getIntent());
+            }
+        });
     }
 
     public void changeScreen(View view){

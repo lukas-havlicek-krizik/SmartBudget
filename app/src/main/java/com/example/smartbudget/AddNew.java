@@ -134,7 +134,8 @@ public class AddNew extends AppCompatActivity {
                 vstupCastka.setText("");
                 prepinac.setChecked(false);
 
-                if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()) {
+                if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()
+                                        && datumRok == LocalDate.now().getYear()) {
                     zbyvajiciLimitCislo -= castka;
                     SharedPreferences.Editor spE = spL.edit();
                     spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
@@ -157,7 +158,8 @@ public class AddNew extends AppCompatActivity {
                 vstupCastka.setText("");
                 prepinac.setChecked(false);
 
-                if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()) {
+                if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()
+                                        && datumRok == LocalDate.now().getYear()) {
                     zbyvajiciLimitCislo -= castka;
                     SharedPreferences.Editor spE = spL.edit();
                     spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));

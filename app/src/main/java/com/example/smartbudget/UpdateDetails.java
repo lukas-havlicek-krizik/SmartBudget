@@ -104,6 +104,7 @@ public class UpdateDetails extends AppCompatActivity {
         long defaultniHodnota = 0;
         String typ;
         int datumMesic;
+        int datumRok;
 
         if (prepinac.isChecked()) {
             typ = "Výdaj";
@@ -113,6 +114,7 @@ public class UpdateDetails extends AppCompatActivity {
 
 
         datumMesic = Integer.parseInt(vstupDatumMesic.getText().toString());
+        datumRok = Integer.parseInt(vstupDatumRok.getText().toString());
 
         long idZIntent = intent.getLongExtra("id",defaultniHodnota);
         zaznamDBoperation.deleteZaznam(idZIntent);
@@ -120,7 +122,8 @@ public class UpdateDetails extends AppCompatActivity {
         if(typ.equals("Výdaj")
                 &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
                 &&intent.getStringExtra("typ").equals("Výdaj")
-                &&datumMesic==LocalDate.now().getMonthValue()){
+                &&datumMesic==LocalDate.now().getMonthValue()
+                &&datumRok == LocalDate.now().getYear()){
 
             zbyvajiciLimitCislo += intent.getDoubleExtra("castka", 0);
             SharedPreferences.Editor spE = spL.edit();
@@ -173,6 +176,7 @@ public class UpdateDetails extends AppCompatActivity {
             //datum bylo aktualni - uživatel mění pouze částku - částku zvyšuje
             if(typ.equals("Výdaj")
                     &&datumMesic==LocalDate.now().getMonthValue()
+                    &&datumRok == LocalDate.now().getYear()
                     &&intent.getDoubleExtra("castka", 0)<castka
                     &&typ.equals(intent.getStringExtra("typ"))
                     &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()) {
@@ -182,6 +186,7 @@ public class UpdateDetails extends AppCompatActivity {
             //datum bylo aktualni - uživatel mění pouze částku - částku snižuje
             }else if(typ.equals("Výdaj")
                     &&datumMesic==LocalDate.now().getMonthValue()
+                    &&datumRok == LocalDate.now().getYear()
                     &&intent.getDoubleExtra("castka", 0)>castka
                     &&typ.equals(intent.getStringExtra("typ"))
                     &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()){
@@ -191,6 +196,7 @@ public class UpdateDetails extends AppCompatActivity {
             //uživatel mění aktuální příjem nebo starý záznam na aktuální výdaj - odečítá se celá částka od limitu
             }else if(typ.equals("Výdaj")
                     &&datumMesic==LocalDate.now().getMonthValue()
+                    &&datumRok == LocalDate.now().getYear()
                     &&((intent.getStringExtra("typ").equals("Příjem")
                                &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue())
                        ||
