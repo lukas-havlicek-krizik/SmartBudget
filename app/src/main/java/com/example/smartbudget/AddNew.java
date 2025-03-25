@@ -1,6 +1,7 @@
 package com.example.smartbudget;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,7 +28,10 @@ public class AddNew extends AppCompatActivity {
     EditText vstupDatumMesic;
     EditText vstupDatumRok;
     EditText vstupCastka;
-
+    SharedPreferences spL;
+    String zbyvajiciLimitPref;
+    String nastavenyLimitPref;
+    double zbyvajiciLimitCislo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +73,10 @@ public class AddNew extends AppCompatActivity {
                 }
             }
         });
+        spL = getSharedPreferences("limits",MODE_PRIVATE);
+        nastavenyLimitPref = spL.getString("nastavenyLimit",String.valueOf(1000));
+        zbyvajiciLimitPref = spL.getString("zbyvajiciLimit",nastavenyLimitPref);
+        zbyvajiciLimitCislo = Double.parseDouble(zbyvajiciLimitPref);
     }
     public void changeScreen(View view){
         Intent intentMain = new Intent(AddNew.this, MainActivity.class);
@@ -112,7 +120,15 @@ public class AddNew extends AppCompatActivity {
             vstupCastka.setText("");
             prepinac.setChecked(false);
 
-            Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
+            if(typ.equals("Výdaj")) {
+                zbyvajiciLimitCislo -= castka;
+                SharedPreferences.Editor spE= spL.edit();
+                spE.putString("zbyvajiciLimit",String.valueOf(zbyvajiciLimitCislo));
+                spE.commit();
+                Toast.makeText(this, "Záznam přidán.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
+            }
         }else {
             Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
         }

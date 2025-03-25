@@ -32,7 +32,7 @@ public class Limits extends AppCompatActivity {
         zbyvaLimitCastka = findViewById(R.id.zbyvalimitVstup);
 
         sp = getSharedPreferences("limits",MODE_PRIVATE);
-        nastavenyLimitPref = sp.getString("nastavenyLimit",String.valueOf(0));
+        nastavenyLimitPref = sp.getString("nastavenyLimit",String.valueOf(1000));
         zbyvajiciLimitPref = sp.getString("zbyvajiciLimit",nastavenyLimitPref);
 
         nastavLimitCastka.setText(nastavenyLimitPref);
