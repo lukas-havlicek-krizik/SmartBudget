@@ -12,12 +12,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.time.LocalDate;
+
 public class Limits extends AppCompatActivity {
     SharedPreferences sp;
     String zbyvajiciLimitPref;
     String nastavenyLimitPref;
     EditText nastavLimitCastka;
     EditText zbyvaLimitCastka;
+    String aktualMesic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,15 @@ public class Limits extends AppCompatActivity {
 
         sp = getSharedPreferences("limits",MODE_PRIVATE);
         nastavenyLimitPref = sp.getString("nastavenyLimit",String.valueOf(1000));
+        aktualMesic = sp.getString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
+
+        if(aktualMesic!=String.valueOf(LocalDate.now().getMonthValue())){
+            SharedPreferences.Editor spE= sp.edit();
+            spE.putString("zbyvajiciLimit",nastavenyLimitPref);
+            spE.putString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
+            spE.commit();
+        }
+
         zbyvajiciLimitPref = sp.getString("zbyvajiciLimit",nastavenyLimitPref);
 
         nastavLimitCastka.setText(nastavenyLimitPref);
@@ -47,6 +59,7 @@ public class Limits extends AppCompatActivity {
     public void nastavLimit(View view){
         SharedPreferences.Editor spE= sp.edit();
         spE.putString("nastavenyLimit",nastavLimitCastka.getText().toString());
+        spE.putString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
         spE.commit();
         finish();
         startActivity(getIntent());

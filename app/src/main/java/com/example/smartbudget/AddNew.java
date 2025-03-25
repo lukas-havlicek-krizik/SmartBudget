@@ -32,6 +32,7 @@ public class AddNew extends AppCompatActivity {
     String zbyvajiciLimitPref;
     String nastavenyLimitPref;
     double zbyvajiciLimitCislo;
+    String aktualMesic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +76,15 @@ public class AddNew extends AppCompatActivity {
         });
         spL = getSharedPreferences("limits",MODE_PRIVATE);
         nastavenyLimitPref = spL.getString("nastavenyLimit",String.valueOf(1000));
+        aktualMesic = spL.getString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
+
+        if(aktualMesic!=String.valueOf(LocalDate.now().getMonthValue())){
+            SharedPreferences.Editor spE= spL.edit();
+            spE.putString("zbyvajiciLimit",nastavenyLimitPref);
+            spE.putString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
+            spE.commit();
+        }
+
         zbyvajiciLimitPref = spL.getString("zbyvajiciLimit",nastavenyLimitPref);
         zbyvajiciLimitCislo = Double.parseDouble(zbyvajiciLimitPref);
     }
