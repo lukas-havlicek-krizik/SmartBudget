@@ -1,6 +1,8 @@
 package com.example.smartbudget;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +22,9 @@ public class Limits extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+    public void changeScreen(View view){
+        Intent intentMain = new Intent(Limits.this, MainActivity.class);
+        startActivity(intentMain);
     }
 }
