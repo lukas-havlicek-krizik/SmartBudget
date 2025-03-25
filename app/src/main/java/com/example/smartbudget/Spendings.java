@@ -26,6 +26,7 @@ public class Spendings extends AppCompatActivity {
     SharedPreferences sp;
     String rokPref;
     Button dalsiRok;
+    Button minulyRok;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class Spendings extends AppCompatActivity {
             return insets;
         });
         dalsiRok = findViewById(R.id.dalsiRok);
+        minulyRok = findViewById(R.id.predchoziRok);
         textView = findViewById(R.id.textView5);
         listView = findViewById(R.id.listView);
         zaznamDBoperations = new ZaznamOperations(this);
@@ -56,6 +58,12 @@ public class Spendings extends AppCompatActivity {
             dalsiRok.setVisibility(View.INVISIBLE);
         }else{
             dalsiRok.setVisibility(View.VISIBLE);
+        }
+
+        if(Integer.parseInt(rokPref)==2020){
+            minulyRok.setVisibility(View.INVISIBLE);
+        }else{
+            minulyRok.setVisibility(View.VISIBLE);
         }
     }
     public void changeScreen(View view){

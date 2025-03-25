@@ -143,7 +143,7 @@ public class UpdateDetails extends AppCompatActivity {
                 ||vstupDatumMesic.getText().toString().isEmpty()
                 ||vstupDatumRok.getText().toString().isEmpty())
             &&(Integer.parseInt(vstupDatumRok.getText().toString())<=LocalDate.now().getYear())
-            &&(Integer.parseInt(vstupDatumRok.getText().toString())>2000)) {
+            &&(Integer.parseInt(vstupDatumRok.getText().toString())>=2020)) {
             intent = getIntent();
             String typ;
             int datumDen;
