@@ -86,7 +86,9 @@ public class AddNew extends AppCompatActivity {
     public void addZaznam(View view) {
         if(!(vstupDatumDen.getText().toString().isEmpty()
                 ||vstupDatumMesic.getText().toString().isEmpty()
-                ||vstupDatumRok.getText().toString().isEmpty())) {
+                ||vstupDatumRok.getText().toString().isEmpty())
+            &&(Integer.parseInt(vstupDatumRok.getText().toString())<=LocalDate.now().getYear())
+            &&(Integer.parseInt(vstupDatumRok.getText().toString())>2000)) {
             String typ;
             int datumDen;
             int datumMesic;
@@ -112,23 +114,52 @@ public class AddNew extends AppCompatActivity {
 
             kategorie = spinner.getSelectedItem().toString();
 
-            zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie);
 
-            vstupDatumDen.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
-            vstupDatumMesic.setText(String.valueOf(LocalDate.now().getMonthValue()));
-            vstupDatumRok.setText(String.valueOf(LocalDate.now().getYear()));
-            vstupCastka.setText("");
-            prepinac.setChecked(false);
+            if((Integer.parseInt(vstupDatumRok.getText().toString())<LocalDate.now().getYear())) {
+                zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie);
 
-            if(typ.equals("Výdaj")) {
-                zbyvajiciLimitCislo -= castka;
-                SharedPreferences.Editor spE= spL.edit();
-                spE.putString("zbyvajiciLimit",String.valueOf(zbyvajiciLimitCislo));
-                spE.commit();
-                Toast.makeText(this, "Záznam přidán.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
+                vstupDatumDen.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
+                vstupDatumMesic.setText(String.valueOf(LocalDate.now().getMonthValue()));
+                vstupDatumRok.setText(String.valueOf(LocalDate.now().getYear()));
+                vstupCastka.setText("");
+                prepinac.setChecked(false);
+
+                if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()) {
+                    zbyvajiciLimitCislo -= castka;
+                    SharedPreferences.Editor spE = spL.edit();
+                    spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
+                    spE.commit();
+                    Toast.makeText(this, "Záznam přidán.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
+                }
+
+            }else if((Integer.parseInt(vstupDatumRok.getText().toString())==LocalDate.now().getYear())
+                    &&!(Integer.parseInt(vstupDatumDen.getText().toString())>LocalDate.now().getDayOfMonth()
+                    &&Integer.parseInt(vstupDatumMesic.getText().toString())==LocalDate.now().getMonthValue())
+                    &&!(Integer.parseInt(vstupDatumMesic.getText().toString())>LocalDate.now().getMonthValue())) {
+
+                zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie);
+
+                vstupDatumDen.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
+                vstupDatumMesic.setText(String.valueOf(LocalDate.now().getMonthValue()));
+                vstupDatumRok.setText(String.valueOf(LocalDate.now().getYear()));
+                vstupCastka.setText("");
+                prepinac.setChecked(false);
+
+                if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()) {
+                    zbyvajiciLimitCislo -= castka;
+                    SharedPreferences.Editor spE = spL.edit();
+                    spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
+                    spE.commit();
+                    Toast.makeText(this, "Záznam přidán.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
             }
+
         }else {
             Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
         }

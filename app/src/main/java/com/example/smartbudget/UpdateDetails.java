@@ -1,6 +1,7 @@
 package com.example.smartbudget;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,6 +17,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.time.LocalDate;
+
 public class UpdateDetails extends AppCompatActivity {
     EditText vstupDatumDen;
     EditText vstupDatumMesic;
@@ -25,9 +28,12 @@ public class UpdateDetails extends AppCompatActivity {
     Switch prepinac;
     ArrayAdapter<CharSequence> adapter;
     private ZaznamOperations zaznamDBoperation;
-
     Intent intent;
-
+    SharedPreferences spL;
+    String zbyvajiciLimitPref;
+    String nastavenyLimitPref;
+    double zbyvajiciLimitCislo;
+    double puvodniZbyLimit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +78,12 @@ public class UpdateDetails extends AppCompatActivity {
             prepinac.setChecked("Výdaj".equals(intent.getStringExtra("typ")));
             kategorie.setSelection(adapter.getPosition(intent.getStringExtra("kategorie")));
         }
+
+        spL = getSharedPreferences("limits",MODE_PRIVATE);
+        nastavenyLimitPref = spL.getString("nastavenyLimit",String.valueOf(1000));
+        zbyvajiciLimitPref = spL.getString("zbyvajiciLimit",nastavenyLimitPref);
+        zbyvajiciLimitCislo = Double.parseDouble(zbyvajiciLimitPref);
+        puvodniZbyLimit = zbyvajiciLimitCislo;
     }
 
     public void changeScreen(View view){
@@ -81,8 +93,35 @@ public class UpdateDetails extends AppCompatActivity {
     public void smazatZaznam(View view){
         intent = getIntent();
         long defaultniHodnota = 0;
+        String typ;
+        int datumMesic;
+
+        if (prepinac.isChecked()) {
+            typ = "Výdaj";
+        } else {
+            typ = "Příjem";
+        }
+
+
+        datumMesic = Integer.parseInt(vstupDatumMesic.getText().toString());
+
         long idZIntent = intent.getLongExtra("id",defaultniHodnota);
         zaznamDBoperation.deleteZaznam(idZIntent);
+
+        if(typ.equals("Výdaj")
+                &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
+                &&intent.getStringExtra("typ").equals("Výdaj")
+                &&datumMesic==LocalDate.now().getMonthValue()){
+
+            zbyvajiciLimitCislo += intent.getDoubleExtra("castka", 0);
+            SharedPreferences.Editor spE = spL.edit();
+            spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
+            spE.commit();
+            Toast.makeText(this, "Záznam smazán.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this, "Záznam smazán.", Toast.LENGTH_LONG).show();
+        }
+
         Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
         startActivity(intentOverview);
     }
@@ -90,7 +129,9 @@ public class UpdateDetails extends AppCompatActivity {
     public void zmenitZaznam(View view){
         if(!(vstupDatumDen.getText().toString().isEmpty()
                 ||vstupDatumMesic.getText().toString().isEmpty()
-                ||vstupDatumRok.getText().toString().isEmpty())) {
+                ||vstupDatumRok.getText().toString().isEmpty())
+            &&(Integer.parseInt(vstupDatumRok.getText().toString())<=LocalDate.now().getYear())
+            &&(Integer.parseInt(vstupDatumRok.getText().toString())>2000)) {
             intent = getIntent();
             String typ;
             int datumDen;
@@ -98,6 +139,7 @@ public class UpdateDetails extends AppCompatActivity {
             int datumRok;
             double castka;
             String kategorieVstup;
+            double rozdil;
 
             if (prepinac.isChecked()) {
                 typ = "Výdaj";
@@ -117,10 +159,83 @@ public class UpdateDetails extends AppCompatActivity {
             }
 
             kategorieVstup = kategorie.getSelectedItem().toString();
+            rozdil = Math.abs(intent.getDoubleExtra("castka", 0) - castka);
 
-            zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup);
-            Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
-            startActivity(intentOverview);
+            //datum bylo aktualni - uživatel mění pouze částku - částku zvyšuje
+            if(typ.equals("Výdaj")
+                    &&datumMesic==LocalDate.now().getMonthValue()
+                    &&intent.getDoubleExtra("castka", 0)<castka
+                    &&typ.equals(intent.getStringExtra("typ"))
+                    &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()) {
+
+                zbyvajiciLimitCislo -= rozdil;
+
+            //datum bylo aktualni - uživatel mění pouze částku - částku snižuje
+            }else if(typ.equals("Výdaj")
+                    &&datumMesic==LocalDate.now().getMonthValue()
+                    &&intent.getDoubleExtra("castka", 0)>castka
+                    &&typ.equals(intent.getStringExtra("typ"))
+                    &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()){
+
+                zbyvajiciLimitCislo += rozdil;
+
+            //uživatel mění aktuální příjem nebo starý záznam na aktuální výdaj - odečítá se celá částka od limitu
+            }else if(typ.equals("Výdaj")
+                    &&datumMesic==LocalDate.now().getMonthValue()
+                    &&((intent.getStringExtra("typ").equals("Příjem")
+                               &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue())
+                       ||
+                       (intent.getIntExtra("datumMesic",0)!=LocalDate.now().getMonthValue()))){
+
+                zbyvajiciLimitCislo -= castka;
+
+            //uživatel mění výdaj na příjem - odebraná částka se opět přidává k limitu
+            }else if(typ.equals("Příjem")
+                    &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
+                    &&intent.getStringExtra("typ").equals("Výdaj")){
+
+                zbyvajiciLimitCislo += castka;
+
+            }else if(typ.equals("Výdaj")
+                    &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
+                    &&intent.getStringExtra("typ").equals("Výdaj")
+                    &&datumMesic!=LocalDate.now().getMonthValue()){
+
+                zbyvajiciLimitCislo += castka;
+
+            }
+
+            //je-li rok menší než aktuální
+            if((Integer.parseInt(vstupDatumRok.getText().toString())<LocalDate.now().getYear())) {
+                if (puvodniZbyLimit != zbyvajiciLimitCislo) {
+                    SharedPreferences.Editor spE = spL.edit();
+                    spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
+                    spE.commit();
+                    Toast.makeText(this, "Záznam upraven.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                }
+
+                zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup);
+                Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
+                startActivity(intentOverview);
+            //pokud je rok aktuální
+            }else if((Integer.parseInt(vstupDatumRok.getText().toString())==LocalDate.now().getYear())
+                        &&!(Integer.parseInt(vstupDatumDen.getText().toString())>LocalDate.now().getDayOfMonth()
+                            &&Integer.parseInt(vstupDatumMesic.getText().toString())==LocalDate.now().getMonthValue())
+                        &&!(Integer.parseInt(vstupDatumMesic.getText().toString())>LocalDate.now().getMonthValue())) {
+                if (puvodniZbyLimit != zbyvajiciLimitCislo) {
+                    SharedPreferences.Editor spE = spL.edit();
+                    spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
+                    spE.commit();
+                    Toast.makeText(this, "Záznam upraven.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                }
+
+                zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup);
+                Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
+                startActivity(intentOverview);
+            }else{
+                Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
+            }
+
         }else {
             Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
         }
