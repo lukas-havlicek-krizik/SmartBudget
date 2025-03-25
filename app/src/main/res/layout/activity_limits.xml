@@ -49,6 +49,7 @@
         android:layout_marginEnd="52dp"
         android:layout_marginBottom="48dp"
         android:text="Nastavit limit"
+        android:onClick="nastavLimit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

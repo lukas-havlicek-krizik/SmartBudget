@@ -14,10 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Limits extends AppCompatActivity {
     SharedPreferences sp;
-    private String zbyvajiciLimitPref;
-    private String nastavenyLimitPref;
-    private EditText nastavLimit;
-    private EditText zbyvaLimit;
+    String zbyvajiciLimitPref;
+    String nastavenyLimitPref;
+    EditText nastavLimitCastka;
+    EditText zbyvaLimitCastka;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,19 +28,27 @@ public class Limits extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        nastavLimit = findViewById(R.id.nastavlimitVstup);
-        zbyvaLimit = findViewById(R.id.zbyvalimitVstup);
+        nastavLimitCastka = findViewById(R.id.nastavlimitVstup);
+        zbyvaLimitCastka = findViewById(R.id.zbyvalimitVstup);
 
         sp = getSharedPreferences("limits",MODE_PRIVATE);
-        nastavenyLimitPref = sp.getString("nastavenyLimit",String.valueOf(1000));
-        zbyvajiciLimitPref = sp.getString("zbyvajiciLimit",String.valueOf(900));
+        nastavenyLimitPref = sp.getString("nastavenyLimit",String.valueOf(0));
+        zbyvajiciLimitPref = sp.getString("zbyvajiciLimit",nastavenyLimitPref);
 
-        nastavLimit.setText(nastavenyLimitPref);
-        zbyvaLimit.setText(zbyvajiciLimitPref);
+        nastavLimitCastka.setText(nastavenyLimitPref);
+        zbyvaLimitCastka.setText(zbyvajiciLimitPref);
 
     }
     public void changeScreen(View view){
         Intent intentMain = new Intent(Limits.this, MainActivity.class);
         startActivity(intentMain);
+    }
+
+    public void nastavLimit(View view){
+        SharedPreferences.Editor spE= sp.edit();
+        spE.putString("nastavenyLimit",nastavLimitCastka.getText().toString());
+        spE.commit();
+        finish();
+        startActivity(getIntent());
     }
 }
