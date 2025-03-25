@@ -38,7 +38,7 @@ public class Limits extends AppCompatActivity {
         nastavenyLimitPref = sp.getString("nastavenyLimit",String.valueOf(1000));
         aktualMesic = sp.getString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
 
-        if(aktualMesic!=String.valueOf(LocalDate.now().getMonthValue())){
+        if(!aktualMesic.equals(String.valueOf(LocalDate.now().getMonthValue()))){
             SharedPreferences.Editor spE= sp.edit();
             spE.putString("zbyvajiciLimit",nastavenyLimitPref);
             spE.putString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));

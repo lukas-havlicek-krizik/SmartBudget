@@ -84,7 +84,7 @@ public class UpdateDetails extends AppCompatActivity {
         nastavenyLimitPref = spL.getString("nastavenyLimit",String.valueOf(1000));
         aktualMesic = spL.getString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
 
-        if(aktualMesic!=String.valueOf(LocalDate.now().getMonthValue())){
+        if(!aktualMesic.equals(String.valueOf(LocalDate.now().getMonthValue()))){
             SharedPreferences.Editor spE= spL.edit();
             spE.putString("zbyvajiciLimit",nastavenyLimitPref);
             spE.putString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
@@ -126,6 +126,11 @@ public class UpdateDetails extends AppCompatActivity {
                 &&datumRok == LocalDate.now().getYear()){
 
             zbyvajiciLimitCislo += intent.getDoubleExtra("castka", 0);
+
+            if(zbyvajiciLimitCislo>Double.parseDouble(nastavenyLimitPref)){
+                zbyvajiciLimitCislo=2000;
+            }
+
             SharedPreferences.Editor spE = spL.edit();
             spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
             spE.commit();
@@ -193,30 +198,44 @@ public class UpdateDetails extends AppCompatActivity {
 
                 zbyvajiciLimitCislo += rozdil;
 
+                if(zbyvajiciLimitCislo>Double.parseDouble(nastavenyLimitPref)){
+                    zbyvajiciLimitCislo=2000;
+                }
+
             //uživatel mění aktuální příjem nebo starý záznam na aktuální výdaj - odečítá se celá částka od limitu
             }else if(typ.equals("Výdaj")
                     &&datumMesic==LocalDate.now().getMonthValue()
                     &&datumRok == LocalDate.now().getYear()
                     &&((intent.getStringExtra("typ").equals("Příjem")
-                               &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue())
+                               &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
+                               &&intent.getIntExtra("datumRok",0)==LocalDate.now().getYear())
                        ||
-                       (intent.getIntExtra("datumMesic",0)!=LocalDate.now().getMonthValue()))){
+                       (intent.getIntExtra("datumMesic",0)!=LocalDate.now().getMonthValue()
+                               ||intent.getIntExtra("datumRok",0)!=LocalDate.now().getYear()))){
 
                 zbyvajiciLimitCislo -= castka;
 
             //uživatel mění výdaj na příjem - odebraná částka se opět přidává k limitu
             }else if(typ.equals("Příjem")
                     &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
+                    &&intent.getIntExtra("datumRok",0)==LocalDate.now().getYear()
                     &&intent.getStringExtra("typ").equals("Výdaj")){
 
                 zbyvajiciLimitCislo += castka;
+                if(zbyvajiciLimitCislo>Double.parseDouble(nastavenyLimitPref)){
+                    zbyvajiciLimitCislo=2000;
+                }
 
             }else if(typ.equals("Výdaj")
                     &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
+                    &&intent.getIntExtra("datumRok",0)==LocalDate.now().getYear()
                     &&intent.getStringExtra("typ").equals("Výdaj")
-                    &&datumMesic!=LocalDate.now().getMonthValue()){
+                    &&(datumMesic!=LocalDate.now().getMonthValue()||datumRok!=LocalDate.now().getYear())){
 
                 zbyvajiciLimitCislo += castka;
+                if(zbyvajiciLimitCislo>Double.parseDouble(nastavenyLimitPref)){
+                    zbyvajiciLimitCislo=2000;
+                }
 
             }
 

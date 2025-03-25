@@ -78,7 +78,7 @@ public class AddNew extends AppCompatActivity {
         nastavenyLimitPref = spL.getString("nastavenyLimit",String.valueOf(1000));
         aktualMesic = spL.getString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
 
-        if(aktualMesic!=String.valueOf(LocalDate.now().getMonthValue())){
+        if(!aktualMesic.equals(String.valueOf(LocalDate.now().getMonthValue()))){
             SharedPreferences.Editor spE= spL.edit();
             spE.putString("zbyvajiciLimit",nastavenyLimitPref);
             spE.putString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
