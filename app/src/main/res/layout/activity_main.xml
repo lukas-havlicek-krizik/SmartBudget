@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/tmaveModra"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -12,6 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SmartBudget"
+        android:textSize="50dp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -21,54 +24,58 @@
 
     <Button
         android:id="@+id/btnAddNew"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="75dp"
         android:onClick="changeScreen"
-        android:text="Přidat"
+        android:text="PŘIDAT"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.58" />
+        app:layout_constraintVertical_bias="0.483" />
 
     <Button
         android:id="@+id/btnLimits"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Limit"
+        android:layout_width="200dp"
+        android:layout_height="75dp"
+        android:text="LIMIT"
+        android:textSize="30dp"
         android:onClick="changeScreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOverview"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintVertical_bias="0" />
 
     <Button
         android:id="@+id/btnSpendings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Útraty"
+        android:layout_width="200dp"
+        android:layout_height="75dp"
         android:onClick="changeScreen"
+        android:text="ÚTRATY"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLimits"
-        app:layout_constraintVertical_bias="0.216" />
+        app:layout_constraintVertical_bias="0" />
 
     <Button
         android:id="@+id/btnOverview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="75dp"
         android:onClick="changeScreen"
-        android:text="Přehled"
+        android:textSize="30dp"
+        android:text="PŘEHLED"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAddNew"
-        app:layout_constraintVertical_bias="0.075" />
+        app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
