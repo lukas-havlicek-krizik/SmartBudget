@@ -16,11 +16,8 @@ import java.time.LocalDate;
 
 public class Limits extends AppCompatActivity {
     SharedPreferences sp;
-    String zbyvajiciLimitPref;
-    String nastavenyLimitPref;
-    EditText nastavLimitCastka;
-    EditText zbyvaLimitCastka;
-    String aktualMesic;
+    String zbyvajiciLimitPref, nastavenyLimitPref, aktualMesic;
+    EditText nastavLimitCastka, zbyvaLimitCastka;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

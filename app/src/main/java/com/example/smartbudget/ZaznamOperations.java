@@ -8,11 +8,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 
 public class ZaznamOperations {
 
-    // Database fields
     private DataBase dbHelper;
     private String[] ZAZNAM_TABLE_COLUMNS = { DataBase.ZAZNAM_ID,
                                                 DataBase.ZAZNAM_TYP,
@@ -20,7 +18,8 @@ public class ZaznamOperations {
                                                 DataBase.ZAZNAM_DATUM_MESIC,
                                                 DataBase.ZAZNAM_DATUM_ROK,
                                                 DataBase.ZAZNAM_CASTKA,
-                                                DataBase.ZAZNAM_KATEGORIE};
+                                                DataBase.ZAZNAM_KATEGORIE,
+                                                DataBase.ZAZNAM_OBRAZEK};
     private SQLiteDatabase database;
 
     public ZaznamOperations(Context context) {
@@ -35,7 +34,10 @@ public class ZaznamOperations {
         dbHelper.close();
     }
 
-    public Zaznam addZaznam(String typ, int datumDen, int datumMesic, int datumRok, double castka, String kategorie) {
+    public Zaznam addZaznam(String typ,
+                            int datumDen, int datumMesic,
+                            int datumRok, double castka,
+                            String kategorie, byte[] obrazek) {
 
         ContentValues values = new ContentValues();
 
@@ -45,6 +47,7 @@ public class ZaznamOperations {
         values.put(DataBase.ZAZNAM_DATUM_ROK, datumRok);
         values.put(DataBase.ZAZNAM_CASTKA, castka);
         values.put(DataBase.ZAZNAM_KATEGORIE, kategorie);
+        values.put(DataBase.ZAZNAM_OBRAZEK, obrazek);
 
         long zaznamId = database.insert(DataBase.ZAZNAMY, null, values);
 
@@ -88,7 +91,10 @@ public class ZaznamOperations {
         database.delete(DataBase.ZAZNAMY, DataBase.ZAZNAM_ID
                 + " = " + id, null);
     }
-    public void updateZaznam(long id, String typ, int datumDen, int datumMesic, int datumRok, double castka, String kategorie){
+    public void updateZaznam(long id, String typ,
+                             int datumDen, int datumMesic, int datumRok,
+                             double castka, String kategorie,
+                             byte[] obrazek){
         ContentValues values = new ContentValues();
         values.put(DataBase.ZAZNAM_TYP, typ);
         values.put(DataBase.ZAZNAM_DATUM_DEN, datumDen);
@@ -96,6 +102,7 @@ public class ZaznamOperations {
         values.put(DataBase.ZAZNAM_DATUM_ROK, datumRok);
         values.put(DataBase.ZAZNAM_CASTKA, castka);
         values.put(DataBase.ZAZNAM_KATEGORIE, kategorie);
+        values.put(DataBase.ZAZNAM_OBRAZEK, obrazek);
 
         database.update(DataBase.ZAZNAMY, values, DataBase.ZAZNAM_ID + "=" + id,null);
     }
@@ -146,6 +153,7 @@ public class ZaznamOperations {
         zaznam.setDatumRok(cursor.getInt(4));
         zaznam.setCastka(cursor.getDouble(5));
         zaznam.setKategorie(cursor.getString(6));
+        zaznam.setObrazek(cursor.getBlob(7));
         return zaznam;
     }
 }

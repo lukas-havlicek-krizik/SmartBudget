@@ -23,8 +23,7 @@ public class Overview extends AppCompatActivity {
     private ZaznamOperations zaznamDBoperations;
     ListView listView;
     CheckBox checkBox;
-    int aktualMesic;
-    int aktualRok;
+    int aktualMesic, aktualRok;
     boolean checked;
     SharedPreferences sp;
     @Override

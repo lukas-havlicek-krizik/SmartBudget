@@ -24,15 +24,10 @@ public class AddNew extends AppCompatActivity {
     Switch prepinac;
     ArrayAdapter<CharSequence> adapter;
     private ZaznamOperations zaznamDBoperation;
-    EditText vstupDatumDen;
-    EditText vstupDatumMesic;
-    EditText vstupDatumRok;
-    EditText vstupCastka;
+    EditText vstupDatumDen, vstupDatumMesic, vstupDatumRok, vstupCastka;
     SharedPreferences spL;
-    String zbyvajiciLimitPref;
-    String nastavenyLimitPref;
+    String zbyvajiciLimitPref, nastavenyLimitPref, aktualMesic;
     double zbyvajiciLimitCislo;
-    String aktualMesic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

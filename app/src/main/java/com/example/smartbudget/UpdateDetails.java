@@ -20,21 +20,15 @@ import androidx.core.view.WindowInsetsCompat;
 import java.time.LocalDate;
 
 public class UpdateDetails extends AppCompatActivity {
-    EditText vstupDatumDen;
-    EditText vstupDatumMesic;
-    EditText vstupDatumRok;
-    EditText vstupCastka;
+    EditText vstupDatumDen, vstupDatumMesic, vstupDatumRok, vstupCastka;
     Spinner kategorie;
     Switch prepinac;
     ArrayAdapter<CharSequence> adapter;
     private ZaznamOperations zaznamDBoperation;
     Intent intent;
     SharedPreferences spL;
-    String zbyvajiciLimitPref;
-    String nastavenyLimitPref;
-    double zbyvajiciLimitCislo;
-    double puvodniZbyLimit;
-    String aktualMesic;
+    String zbyvajiciLimitPref, nastavenyLimitPref, aktualMesic;
+    double zbyvajiciLimitCislo, puvodniZbyLimit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

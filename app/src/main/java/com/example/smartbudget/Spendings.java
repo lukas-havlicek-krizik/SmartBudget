@@ -25,8 +25,7 @@ public class Spendings extends AppCompatActivity {
     int rok;
     SharedPreferences sp;
     String rokPref;
-    Button dalsiRok;
-    Button minulyRok;
+    Button dalsiRok, minulyRok;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

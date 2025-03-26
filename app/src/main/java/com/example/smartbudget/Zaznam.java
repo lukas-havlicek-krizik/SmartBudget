@@ -2,13 +2,10 @@ package com.example.smartbudget;
 
 
 public class Zaznam {
-    private int id;
-    private String typ;
-    private int datumDen;
-    private int datumMesic;
-    private int datumRok;
+    private int id, datumDen, datumMesic, datumRok;
+    private String typ, kategorie;
     private double castka;
-    private String kategorie;
+    private byte[] obrazek;
 
     public long getId(){
         return id;
@@ -51,6 +48,12 @@ public class Zaznam {
     }
     public void setKategorie(String kategorie){
         this.kategorie = kategorie;
+    }
+    public byte[] getObrazek(){
+        return obrazek;
+    }
+    public void setObrazek(byte[] obrazek){
+        this.obrazek = obrazek;
     }
 
     @Override
