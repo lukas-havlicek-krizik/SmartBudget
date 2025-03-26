@@ -1,22 +1,38 @@
 package com.example.smartbudget;
 
+import android.Manifest;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 
 public class AddNew extends AppCompatActivity {
@@ -28,6 +44,18 @@ public class AddNew extends AppCompatActivity {
     SharedPreferences spL;
     String zbyvajiciLimitPref, nastavenyLimitPref, aktualMesic;
     double zbyvajiciLimitCislo;
+    private ImageView obrazek;
+    String imageUriString;
+
+    private static final int CAMERA_REQUEST_CODE = 100,
+                             STORAGE_REQUEST_CODE = 101,
+                             IMAGE_PICK_CAMERA_CODE = 102,
+                             IMAGE_PICK_GALLERY_CODE = 103;
+
+    private String[] cameraPermissions;
+    private String[] storagePermissions;
+    Uri imageUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +73,11 @@ public class AddNew extends AppCompatActivity {
         vstupDatumMesic = findViewById(R.id.vstupDatumMesic);
         vstupDatumRok = findViewById(R.id.vstupDatumRok);
         vstupCastka = findViewById(R.id.vstupCastka);
+        obrazek = findViewById(R.id.imageView);
+
+        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
         zaznamDBoperation = new ZaznamOperations(this);
         zaznamDBoperation.open();
 
@@ -82,6 +115,14 @@ public class AddNew extends AppCompatActivity {
 
         zbyvajiciLimitPref = spL.getString("zbyvajiciLimit",nastavenyLimitPref);
         zbyvajiciLimitCislo = Double.parseDouble(zbyvajiciLimitPref);
+
+        obrazek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imagePickDialog();
+            }
+        });
+
     }
     public void changeScreen(View view){
         Intent intentMain = new Intent(AddNew.this, MainActivity.class);
@@ -118,16 +159,19 @@ public class AddNew extends AppCompatActivity {
             }
 
             kategorie = spinner.getSelectedItem().toString();
-
+            imageUriString = (imageUri != null) ? imageUri.toString() : "";
 
             if((Integer.parseInt(vstupDatumRok.getText().toString())<LocalDate.now().getYear())) {
-                zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie);
+                zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie, imageUriString);
 
                 vstupDatumDen.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
                 vstupDatumMesic.setText(String.valueOf(LocalDate.now().getMonthValue()));
                 vstupDatumRok.setText(String.valueOf(LocalDate.now().getYear()));
                 vstupCastka.setText("");
                 prepinac.setChecked(false);
+                imageUriString = "";
+                imageUri = null;
+                obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
 
                 if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()
                                         && datumRok == LocalDate.now().getYear()) {
@@ -145,13 +189,16 @@ public class AddNew extends AppCompatActivity {
                     &&Integer.parseInt(vstupDatumMesic.getText().toString())==LocalDate.now().getMonthValue())
                     &&!(Integer.parseInt(vstupDatumMesic.getText().toString())>LocalDate.now().getMonthValue())) {
 
-                zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie);
+                zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie, imageUriString);
 
                 vstupDatumDen.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
                 vstupDatumMesic.setText(String.valueOf(LocalDate.now().getMonthValue()));
                 vstupDatumRok.setText(String.valueOf(LocalDate.now().getYear()));
                 vstupCastka.setText("");
                 prepinac.setChecked(false);
+                imageUriString = "";
+                imageUri = null;
+                obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
 
                 if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()
                                         && datumRok == LocalDate.now().getYear()) {
@@ -171,6 +218,119 @@ public class AddNew extends AppCompatActivity {
             Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
         }
     }
+    private boolean checkStoragePermissions(){
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == (PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+    private void requestStoragePermissions(){
+        ActivityCompat.requestPermissions(this, storagePermissions, STORAGE_REQUEST_CODE);
+    }
+    private boolean checkCameraPermissions(){
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == (PackageManager.PERMISSION_GRANTED);
+        return result && result1;
+    }
+    private void requestCameraPermissions(){
+        ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
+    }
+    private void imagePickDialog() {
+        String[] moznosti = {"Kamera", "Galerie"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Vyberte obrázek z");
+        builder.setItems(moznosti, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which==0){
+                    if(!checkCameraPermissions()){
+                        requestCameraPermissions();;
+                    }else{
+                        //již povoleno
+                        vybratZKamera();
+                    }
+                } else if(which==1){
+                    if(!checkStoragePermissions()){
+                        requestStoragePermissions();
+                    }else{
+                        //již povoleno
+                        vybratZGalerie();
+                    }
+                }
+            }
+        });
+        builder.create().show();
+    }
+    private void vybratZKamera(){
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "Image title");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Image description");
+
+        imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Intent intentKamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intentKamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intentKamera, IMAGE_PICK_CAMERA_CODE);
+    }
+    private void vybratZGalerie(){
+        Intent intentGalerie = new Intent(Intent.ACTION_PICK);
+        intentGalerie.setType("image/*");
+        startActivityForResult(intentGalerie, IMAGE_PICK_GALLERY_CODE);
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //výsledek povolení/zakázání kamery/uloziste
+        switch(requestCode){
+            case CAMERA_REQUEST_CODE:{
+                if(grantResults.length>0){
+                    //pokud povoleno, vrátí "true", pokud ne, vrátí "false"
+                    boolean kameraPovolena = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean ulozistePovoleno = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if(kameraPovolena && ulozistePovoleno){
+                        //oboje povoleno
+                        if (!checkCameraPermissions()) {
+                            requestCameraPermissions();
+                        } else {
+                            vybratZKamera();
+                        }
+                    }else{
+                        Toast.makeText(this, "Musíte povolit přístup ke kameře a úložišti.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }break;
+            case STORAGE_REQUEST_CODE:{
+                if(grantResults.length>0){
+                    boolean ulozistePovoleno = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    if(ulozistePovoleno){
+                        //uloziste povoleno
+                        vybratZGalerie();
+                    }else{
+                        Toast.makeText(this, "Musíte povolit přístup k úložišti.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            //obrázek je vybrán
+            if (requestCode == IMAGE_PICK_CAMERA_CODE) {
+                // získání obrázku z kamery
+                obrazek.setImageURI(imageUri);
+            } else if (requestCode == IMAGE_PICK_GALLERY_CODE) {
+                // získání obrázku z galerie
+                imageUri = data.getData();
+                obrazek.setImageURI(imageUri);
+            }
+        }
+    }
+
+
     @Override
     protected void onResume() {
         zaznamDBoperation.open();

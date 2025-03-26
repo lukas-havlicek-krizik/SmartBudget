@@ -69,6 +69,7 @@ public class Overview extends AppCompatActivity {
                 intentDetails.putExtra("datumRok", selectedZaznam.getDatumRok());
                 intentDetails.putExtra("castka", selectedZaznam.getCastka());
                 intentDetails.putExtra("kategorie", selectedZaznam.getKategorie());
+                intentDetails.putExtra("obrazek",selectedZaznam.getObrazek());
 
                 startActivity(intentDetails);
             }

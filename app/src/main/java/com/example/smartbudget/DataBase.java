@@ -17,7 +17,7 @@ public class DataBase extends SQLiteOpenHelper {
     public static final String ZAZNAM_OBRAZEK = "_obrazek";
 
     private static final String DATABASE_NAME = "SmartBudgetDB.db";
-    private static final int DATABASE_VERSION = 2025032601;
+    private static final int DATABASE_VERSION = 2025032602;
 
     private static final String DATABASE_CREATE = "create table " + ZAZNAMY
             + "("
@@ -28,7 +28,7 @@ public class DataBase extends SQLiteOpenHelper {
             + ZAZNAM_DATUM_ROK + " integer not null, "
             + ZAZNAM_CASTKA + " double not null, "
             + ZAZNAM_KATEGORIE + " text not null,"
-            + ZAZNAM_OBRAZEK + " blob);";
+            + ZAZNAM_OBRAZEK + " text);";
 
     public DataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
