@@ -7,6 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".AddNew">
 
+    <ImageButton
+        android:id="@+id/btnDeleteImg"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Smazat"
+        android:onClick="smazatFoto"
+        android:src="@drawable/baseline_remove_circle_outline_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"

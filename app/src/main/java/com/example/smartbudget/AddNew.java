@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -28,11 +29,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 
 public class AddNew extends AppCompatActivity {
@@ -55,6 +51,7 @@ public class AddNew extends AppCompatActivity {
     private String[] cameraPermissions;
     private String[] storagePermissions;
     Uri imageUri;
+    ImageButton btnDeleteImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +71,7 @@ public class AddNew extends AppCompatActivity {
         vstupDatumRok = findViewById(R.id.vstupDatumRok);
         vstupCastka = findViewById(R.id.vstupCastka);
         obrazek = findViewById(R.id.imageView);
+        btnDeleteImg = findViewById(R.id.btnDeleteImg);
 
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -123,12 +121,20 @@ public class AddNew extends AppCompatActivity {
             }
         });
 
+        btnDeleteImg.setVisibility(View.INVISIBLE);
+
+
     }
     public void changeScreen(View view){
         Intent intentMain = new Intent(AddNew.this, MainActivity.class);
         startActivity(intentMain);
     }
-
+    public void smazatFoto(View view){
+        imageUriString = "";
+        imageUri = null;
+        obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
+        btnDeleteImg.setVisibility(View.INVISIBLE);
+    }
     public void addZaznam(View view) {
         if(!(vstupDatumDen.getText().toString().isEmpty()
                 ||vstupDatumMesic.getText().toString().isEmpty()
@@ -172,6 +178,7 @@ public class AddNew extends AppCompatActivity {
                 imageUriString = "";
                 imageUri = null;
                 obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
+                btnDeleteImg.setVisibility(View.INVISIBLE);
 
                 if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()
                                         && datumRok == LocalDate.now().getYear()) {
@@ -199,6 +206,7 @@ public class AddNew extends AppCompatActivity {
                 imageUriString = "";
                 imageUri = null;
                 obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
+                btnDeleteImg.setVisibility(View.INVISIBLE);
 
                 if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()
                                         && datumRok == LocalDate.now().getYear()) {
@@ -266,6 +274,7 @@ public class AddNew extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.TITLE, "Image title");
         values.put(MediaStore.Images.Media.DESCRIPTION, "Image description");
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
 
         imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
@@ -322,13 +331,17 @@ public class AddNew extends AppCompatActivity {
             if (requestCode == IMAGE_PICK_CAMERA_CODE) {
                 // získání obrázku z kamery
                 obrazek.setImageURI(imageUri);
+                btnDeleteImg.setVisibility(View.VISIBLE);
             } else if (requestCode == IMAGE_PICK_GALLERY_CODE) {
                 // získání obrázku z galerie
                 imageUri = data.getData();
                 obrazek.setImageURI(imageUri);
+                btnDeleteImg.setVisibility(View.VISIBLE);
             }
         }
     }
+
+
 
 
     @Override

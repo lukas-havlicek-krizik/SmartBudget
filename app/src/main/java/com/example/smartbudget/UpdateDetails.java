@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -55,8 +56,8 @@ public class UpdateDetails extends AppCompatActivity {
     private String[] cameraPermissions;
     private String[] storagePermissions;
     Uri imageUri;
-
-
+    ImageButton btnDeleteImg;
+    String imageUriString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +75,7 @@ public class UpdateDetails extends AppCompatActivity {
         kategorie = findViewById(R.id.kategorie);
         prepinac = findViewById(R.id.prepinac);
         obrazek = findViewById(R.id.imageView);
+        btnDeleteImg = findViewById(R.id.btnDeleteImg);
 
         cameraPermissions = new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -107,7 +109,7 @@ public class UpdateDetails extends AppCompatActivity {
             kategorie.setSelection(adapter.getPosition(intent.getStringExtra("kategorie")));
 
             String obrazekString = intent.getStringExtra("obrazek");
-            if (obrazekString != null && !obrazekString.isEmpty() && !obrazekString.equals(" ")) {
+            if (obrazekString != null && !obrazekString.isEmpty() && !obrazekString.equals("")) {
                 Uri obrazekUri = Uri.parse(obrazekString);
                 obrazek.setImageURI(obrazekUri);
             } else {
@@ -136,11 +138,24 @@ public class UpdateDetails extends AppCompatActivity {
                 imagePickDialog();
             }
         });
+        String obrazekString = intent.getStringExtra("obrazek");
+        Uri obrazekUri = Uri.parse(obrazekString);
+        if(obrazekUri!=null){
+            btnDeleteImg.setVisibility(View.VISIBLE);
+        }else{
+            btnDeleteImg.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void changeScreen(View view){
         Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
         startActivity(intentOverview);
+    }
+    public void smazatFoto(View view){
+        imageUriString = "";
+        imageUri = null;
+        obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
+        btnDeleteImg.setVisibility(View.INVISIBLE);
     }
     public void smazatZaznam(View view){
         intent = getIntent();
@@ -219,6 +234,7 @@ public class UpdateDetails extends AppCompatActivity {
 
             kategorieVstup = kategorie.getSelectedItem().toString();
             rozdil = Math.abs(intent.getDoubleExtra("castka", 0) - castka);
+            imageUriString = (imageUri != null) ? imageUri.toString() : "";
 
             //datum bylo aktualni - uživatel mění pouze částku - částku zvyšuje
             if(typ.equals("Výdaj")
@@ -290,7 +306,7 @@ public class UpdateDetails extends AppCompatActivity {
                     Toast.makeText(this, "Záznam upraven.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
                 }
 
-                zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup, imageUri.toString());
+                zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup, imageUriString);
                 Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
                 startActivity(intentOverview);
             //pokud je rok aktuální
@@ -305,7 +321,7 @@ public class UpdateDetails extends AppCompatActivity {
                     Toast.makeText(this, "Záznam upraven.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
                 }
 
-                zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup, imageUri.toString());
+                zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup, imageUriString);
                 Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
                 startActivity(intentOverview);
             }else{
@@ -316,7 +332,6 @@ public class UpdateDetails extends AppCompatActivity {
             Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
         }
     }
-
     private boolean checkStoragePermissions(){
         boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == (PackageManager.PERMISSION_GRANTED);
@@ -417,10 +432,12 @@ public class UpdateDetails extends AppCompatActivity {
                 // získání obrázku z kamery
                 imageUri = data.getData();
                 obrazek.setImageURI(imageUri);
+                btnDeleteImg.setVisibility(View.VISIBLE);
             } else if (requestCode == IMAGE_PICK_GALLERY_CODE) {
                 // získání obrázku z galerie
                 imageUri = data.getData();
                 obrazek.setImageURI(imageUri);
+                btnDeleteImg.setVisibility(View.VISIBLE);
             }
         }
 
