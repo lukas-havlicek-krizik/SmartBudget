@@ -106,6 +106,8 @@ public class ZaznamOperations {
         values.put(DataBase.ZAZNAM_KATEGORIE, kategorie);
         if((!obrazek.isEmpty())&&(obrazek!=null)) {
             values.put(DataBase.ZAZNAM_OBRAZEK, obrazek);
+        }else{
+            values.put(DataBase.ZAZNAM_OBRAZEK, "");
         }
 
         database.update(DataBase.ZAZNAMY, values, DataBase.ZAZNAM_ID + "=" + id,null);

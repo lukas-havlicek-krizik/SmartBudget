@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.documentfile.provider.DocumentFile;
 import java.time.LocalDate;
 
 public class AddNew extends AppCompatActivity {
@@ -282,11 +282,13 @@ public class AddNew extends AppCompatActivity {
         intentKamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intentKamera, IMAGE_PICK_CAMERA_CODE);
     }
-    private void vybratZGalerie(){
-        Intent intentGalerie = new Intent(Intent.ACTION_PICK);
+    private void vybratZGalerie() {
+        Intent intentGalerie = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intentGalerie.setType("image/*");
+        intentGalerie.addCategory(Intent.CATEGORY_OPENABLE); // Otevře pouze otevřitelné soubory
         startActivityForResult(intentGalerie, IMAGE_PICK_GALLERY_CODE);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -326,17 +328,25 @@ public class AddNew extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
-            //obrázek je vybrán
+        if (resultCode == RESULT_OK) {
             if (requestCode == IMAGE_PICK_CAMERA_CODE) {
-                // získání obrázku z kamery
+                // Získání obrázku z kamery
                 obrazek.setImageURI(imageUri);
                 btnDeleteImg.setVisibility(View.VISIBLE);
-            } else if (requestCode == IMAGE_PICK_GALLERY_CODE) {
-                // získání obrázku z galerie
+            } else if (requestCode == IMAGE_PICK_GALLERY_CODE && data != null) {
+                // Získání obrázku z galerie
                 imageUri = data.getData();
-                obrazek.setImageURI(imageUri);
-                btnDeleteImg.setVisibility(View.VISIBLE);
+                if (imageUri != null) {
+                    DocumentFile documentFile = DocumentFile.fromSingleUri(this, imageUri);
+                    if (documentFile != null && documentFile.exists()) {
+                        getContentResolver().takePersistableUriPermission(
+                                imageUri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        );
+                        obrazek.setImageURI(imageUri);
+                        btnDeleteImg.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         }
     }

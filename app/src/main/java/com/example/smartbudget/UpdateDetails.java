@@ -6,11 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -20,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,10 +29,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import androidx.documentfile.provider.DocumentFile;
 import java.time.LocalDate;
 
 public class UpdateDetails extends AppCompatActivity {
@@ -55,9 +50,10 @@ public class UpdateDetails extends AppCompatActivity {
 
     private String[] cameraPermissions;
     private String[] storagePermissions;
-    Uri imageUri;
+    Uri imageUri, obrazekUri;
     ImageButton btnDeleteImg;
     String imageUriString;
+    boolean jeFotka;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,11 +105,30 @@ public class UpdateDetails extends AppCompatActivity {
             kategorie.setSelection(adapter.getPosition(intent.getStringExtra("kategorie")));
 
             String obrazekString = intent.getStringExtra("obrazek");
-            if (obrazekString != null && !obrazekString.isEmpty() && !obrazekString.equals("")) {
-                Uri obrazekUri = Uri.parse(obrazekString);
-                obrazek.setImageURI(obrazekUri);
+            if (obrazekString != null && !obrazekString.isEmpty()) {
+                obrazekUri = Uri.parse(obrazekString);
+                Toast.makeText(this, "" + obrazekUri, Toast.LENGTH_LONG).show();
+
+                // Kontrola autority URI
+                if (obrazekUri.getAuthority() != null && obrazekUri.getAuthority().contains("com.android.providers.media.documents")) {
+                    try {
+                        DocumentFile documentFile = DocumentFile.fromSingleUri(this, obrazekUri);
+                        if (documentFile != null && documentFile.exists()) {
+                            obrazek.setImageURI(obrazekUri);
+                            btnDeleteImg.setVisibility(View.VISIBLE);
+                        } else {
+                            Log.e("IMAGE_ERROR", "DocumentFile neexistuje.");
+                        }
+                    } catch (Exception e) {
+                        Log.e("URI_ERROR", "Chyba při získávání DocumentFile", e);
+                    }
+                } else {
+                    obrazek.setImageURI(obrazekUri);
+                    jeFotka = true;
+                }
             } else {
                 obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
+                jeFotka = false;
             }
 
         }
@@ -138,8 +153,6 @@ public class UpdateDetails extends AppCompatActivity {
                 imagePickDialog();
             }
         });
-        String obrazekString = intent.getStringExtra("obrazek");
-        Uri obrazekUri = Uri.parse(obrazekString);
         if(obrazekUri!=null){
             btnDeleteImg.setVisibility(View.VISIBLE);
         }else{
@@ -156,6 +169,7 @@ public class UpdateDetails extends AppCompatActivity {
         imageUri = null;
         obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
         btnDeleteImg.setVisibility(View.INVISIBLE);
+        jeFotka = false;
     }
     public void smazatZaznam(View view){
         intent = getIntent();
@@ -234,7 +248,13 @@ public class UpdateDetails extends AppCompatActivity {
 
             kategorieVstup = kategorie.getSelectedItem().toString();
             rozdil = Math.abs(intent.getDoubleExtra("castka", 0) - castka);
-            imageUriString = (imageUri != null) ? imageUri.toString() : "";
+            if(jeFotka && !intent.getStringExtra("obrazek").isEmpty() && imageUri == null){
+                imageUriString = intent.getStringExtra("obrazek");
+            }else if(jeFotka && imageUri != null){
+                imageUriString = imageUri.toString();
+            }else if(!jeFotka){
+                imageUriString = "";
+            }
 
             //datum bylo aktualni - uživatel mění pouze částku - částku zvyšuje
             if(typ.equals("Výdaj")
@@ -387,9 +407,10 @@ public class UpdateDetails extends AppCompatActivity {
         intentKamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intentKamera, IMAGE_PICK_CAMERA_CODE);
     }
-    private void vybratZGalerie(){
-        Intent intentGalerie = new Intent(Intent.ACTION_PICK);
+    private void vybratZGalerie() {
+        Intent intentGalerie = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intentGalerie.setType("image/*");
+        intentGalerie.addCategory(Intent.CATEGORY_OPENABLE); // Otevře pouze otevřitelné soubory
         startActivityForResult(intentGalerie, IMAGE_PICK_GALLERY_CODE);
     }
     @Override
@@ -426,22 +447,23 @@ public class UpdateDetails extends AppCompatActivity {
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(resultCode==RESULT_OK){
-            //obrázek je vybrán
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
             if (requestCode == IMAGE_PICK_CAMERA_CODE) {
-                // získání obrázku z kamery
-                imageUri = data.getData();
+                // Získání obrázku z kamery
                 obrazek.setImageURI(imageUri);
                 btnDeleteImg.setVisibility(View.VISIBLE);
-            } else if (requestCode == IMAGE_PICK_GALLERY_CODE) {
-                // získání obrázku z galerie
+                jeFotka = true;
+            } else if (requestCode == IMAGE_PICK_GALLERY_CODE && data != null) {
+                // Získání obrázku z galerie
                 imageUri = data.getData();
-                obrazek.setImageURI(imageUri);
-                btnDeleteImg.setVisibility(View.VISIBLE);
+                if (imageUri != null) {
+                    obrazek.setImageURI(imageUri);
+                    btnDeleteImg.setVisibility(View.VISIBLE);
+                    jeFotka = true;
+                }
             }
         }
-
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
