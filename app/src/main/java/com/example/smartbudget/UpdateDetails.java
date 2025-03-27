@@ -458,6 +458,10 @@ public class UpdateDetails extends AppCompatActivity {
                 // Získání obrázku z galerie
                 imageUri = data.getData();
                 if (imageUri != null) {
+                    getContentResolver().takePersistableUriPermission(
+                            imageUri,
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    );
                     obrazek.setImageURI(imageUri);
                     btnDeleteImg.setVisibility(View.VISIBLE);
                     jeFotka = true;
