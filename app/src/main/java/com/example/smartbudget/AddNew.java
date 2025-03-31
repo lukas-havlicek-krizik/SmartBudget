@@ -83,8 +83,8 @@ public class AddNew extends AppCompatActivity {
         vstupDatumMesic.setText(String.valueOf(LocalDate.now().getMonthValue()));
         vstupDatumRok.setText(String.valueOf(LocalDate.now().getYear()));
 
-        adapter = ArrayAdapter.createFromResource(AddNew.this, R.array.spinnerKategoriePrijem, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter = ArrayAdapter.createFromResource(AddNew.this, R.array.spinnerKategoriePrijem, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setAdapter(adapter);
 
         prepinac.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
