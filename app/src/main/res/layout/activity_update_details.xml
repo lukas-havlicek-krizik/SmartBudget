@@ -110,12 +110,12 @@
         android:id="@+id/ulozitZaznam2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="156dp"
         android:layout_marginBottom="44dp"
-        android:text="Smazat"
         android:onClick="smazatZaznam"
+        android:text="Smazat"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/ulozitZaznam"
+        app:layout_constraintStart_toEndOf="@+id/btnGoBack" />
 
     <Switch
         android:id="@+id/prepinac"

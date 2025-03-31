@@ -107,8 +107,6 @@ public class UpdateDetails extends AppCompatActivity {
             String obrazekString = intent.getStringExtra("obrazek");
             if (obrazekString != null && !obrazekString.isEmpty()) {
                 obrazekUri = Uri.parse(obrazekString);
-                Toast.makeText(this, "" + obrazekUri, Toast.LENGTH_LONG).show();
-
                 // Kontrola autority URI
                 if (obrazekUri.getAuthority() != null && obrazekUri.getAuthority().contains("com.android.providers.media.documents")) {
                     try {
@@ -116,6 +114,7 @@ public class UpdateDetails extends AppCompatActivity {
                         if (documentFile != null && documentFile.exists()) {
                             obrazek.setImageURI(obrazekUri);
                             btnDeleteImg.setVisibility(View.VISIBLE);
+                            jeFotka = true;
                         } else {
                             Log.e("IMAGE_ERROR", "DocumentFile neexistuje.");
                         }
@@ -248,7 +247,9 @@ public class UpdateDetails extends AppCompatActivity {
 
             kategorieVstup = kategorie.getSelectedItem().toString();
             rozdil = Math.abs(intent.getDoubleExtra("castka", 0) - castka);
-            if(jeFotka && !intent.getStringExtra("obrazek").isEmpty() && imageUri == null){
+
+            //fotka je nastavena
+            if(jeFotka && intent.getStringExtra("obrazek")!=null && imageUri == null){
                 imageUriString = intent.getStringExtra("obrazek");
             }else if(jeFotka && imageUri != null){
                 imageUriString = imageUri.toString();
@@ -458,13 +459,16 @@ public class UpdateDetails extends AppCompatActivity {
                 // Získání obrázku z galerie
                 imageUri = data.getData();
                 if (imageUri != null) {
-                    getContentResolver().takePersistableUriPermission(
-                            imageUri,
-                            Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    );
-                    obrazek.setImageURI(imageUri);
-                    btnDeleteImg.setVisibility(View.VISIBLE);
-                    jeFotka = true;
+                    DocumentFile documentFile = DocumentFile.fromSingleUri(this, imageUri);
+                    if (documentFile != null && documentFile.exists()) {
+                        getContentResolver().takePersistableUriPermission(
+                                imageUri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        );
+                        obrazek.setImageURI(imageUri);
+                        btnDeleteImg.setVisibility(View.VISIBLE);
+                        jeFotka = true;
+                    }
                 }
             }
         }
