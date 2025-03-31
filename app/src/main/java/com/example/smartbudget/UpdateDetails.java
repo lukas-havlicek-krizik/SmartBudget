@@ -82,12 +82,12 @@ public class UpdateDetails extends AppCompatActivity {
         prepinac.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(!isChecked) {
-                    adapter = ArrayAdapter.createFromResource(UpdateDetails.this, R.array.spinnerKategoriePrijem, android.R.layout.simple_spinner_item);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    adapter = ArrayAdapter.createFromResource(UpdateDetails.this, R.array.spinnerKategoriePrijem, R.layout.spinner_item);
+                    adapter.setDropDownViewResource(R.layout.spinner_dropdown);
                     kategorie.setAdapter(adapter);
                 }else{
-                    adapter = ArrayAdapter.createFromResource(UpdateDetails.this, R.array.spinnerKategorieVydej, android.R.layout.simple_spinner_item);
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    adapter = ArrayAdapter.createFromResource(UpdateDetails.this, R.array.spinnerKategorieVydej, R.layout.spinner_item);
+                    adapter.setDropDownViewResource(R.layout.spinner_dropdown);
                     kategorie.setAdapter(adapter);
                 }
             }
