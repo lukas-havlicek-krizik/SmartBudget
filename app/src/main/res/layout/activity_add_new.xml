@@ -150,7 +150,7 @@
             android:background="@drawable/edittext_input"
             android:ems="10"
             android:hint="Částka"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
