@@ -140,7 +140,8 @@ public class AddNew extends AppCompatActivity {
                 ||vstupDatumMesic.getText().toString().isEmpty()
                 ||vstupDatumRok.getText().toString().isEmpty())
             &&(Integer.parseInt(vstupDatumRok.getText().toString())<=LocalDate.now().getYear())
-            &&(Integer.parseInt(vstupDatumRok.getText().toString())>=2020)) {
+            &&(Integer.parseInt(vstupDatumRok.getText().toString())>=2020)
+            &&!vstupCastka.getText().toString().isEmpty()) {
             String typ;
             int datumDen;
             int datumMesic;
@@ -156,14 +157,7 @@ public class AddNew extends AppCompatActivity {
             datumDen = Integer.parseInt(vstupDatumDen.getText().toString());
             datumMesic = Integer.parseInt(vstupDatumMesic.getText().toString());
             datumRok = Integer.parseInt(vstupDatumRok.getText().toString());
-
-            String castkaString = vstupCastka.getText().toString();
-            if (castkaString.isEmpty()) {
-                castka = 0;
-            } else {
-                castka = Double.parseDouble(castkaString);
-            }
-
+            castka = Double.parseDouble(vstupCastka.getText().toString());
             kategorie = spinner.getSelectedItem().toString();
             imageUriString = (imageUri != null) ? imageUri.toString() : "";
 
