@@ -219,41 +219,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.943">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnGoBack"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_main"
-        android:onClick="changeScreen"
-        android:layout_weight="1"
-        android:layout_marginRight="40dp"
-        android:text="Zpět"
-        android:textSize="25sp"
-        android:textColor="#11182C"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.104"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.935" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGoBack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_main"
+            android:onClick="changeScreen"
+            android:layout_weight="1"
+            android:layout_marginRight="40dp"
+            android:text="Zpět"
+            android:textSize="25sp"
+            android:textColor="#11182C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.104"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.935" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/ulozitZaznam"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_main"
-        android:layout_weight="1"
-        android:layout_marginLeft="40dp"
-        android:onClick="addZaznam"
-        android:text="Uložit"
-        android:textSize="25sp"
-        android:textColor="#11182C"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.895"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.935" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ulozitZaznam"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_main"
+            android:layout_weight="1"
+            android:layout_marginLeft="40dp"
+            android:onClick="addZaznam"
+            android:text="Uložit"
+            android:textSize="25sp"
+            android:textColor="#11182C"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.895"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.935" />
 
     </LinearLayout>
 
