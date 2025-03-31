@@ -24,69 +24,85 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.146" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnAddNew"
+    <LinearLayout
         android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_main"
-        android:onClick="changeScreen"
-        android:textColor="#11182C"
-        android:text="PŘIDAT"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.439" />
+        android:layout_height="320dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="295dp">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnOverview"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_main"
-        android:onClick="changeScreen"
-        android:text="PŘEHLED"
-        android:textColor="#11182C"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddNew"
-        app:layout_constraintVertical_bias="0.085" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddNew"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:background="@drawable/button_main"
+            android:onClick="changeScreen"
+            android:textColor="#11182C"
+            android:text="PŘIDAT"
+            android:textSize="30dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.439" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnLimits"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_main"
-        android:onClick="changeScreen"
-        android:text="LIMIT"
-        android:textColor="#11182C"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnOverview"
-        app:layout_constraintVertical_bias="0.109" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOverview"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:background="@drawable/button_main"
+            android:onClick="changeScreen"
+            android:text="PŘEHLED"
+            android:textColor="#11182C"
+            android:textSize="30dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddNew"
+            app:layout_constraintVertical_bias="0.085" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSpendings"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:background="@drawable/button_main"
-        android:onClick="changeScreen"
-        android:text="ÚTRATY"
-        android:textColor="#11182C"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLimits"
-        app:layout_constraintVertical_bias="0.151" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLimits"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:background="@drawable/button_main"
+            android:onClick="changeScreen"
+            android:text="LIMIT"
+            android:textColor="#11182C"
+            android:textSize="30dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnOverview"
+            app:layout_constraintVertical_bias="0.109" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSpendings"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:background="@drawable/button_main"
+            android:onClick="changeScreen"
+            android:text="ÚTRATY"
+            android:textColor="#11182C"
+            android:textSize="30dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLimits"
+            app:layout_constraintVertical_bias="0.151" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
