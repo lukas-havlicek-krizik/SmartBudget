@@ -167,7 +167,9 @@ public class AddNew extends AppCompatActivity {
             imageUriString = (imageUri != null) ? imageUri.toString() : "";
 
             //podmínka - je napsaný rok menší než aktuální? - ano -> provede se
-            if((Integer.parseInt(vstupDatumRok.getText().toString())<LocalDate.now().getYear())) {
+            if(datumRok<LocalDate.now().getYear()
+                &&jePlatneDatum(datumDen,datumMesic,datumRok)) {
+
                 zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie, imageUriString);
 
                 vstupDatumDen.setText(String.valueOf(LocalDate.now().getDayOfMonth()));
@@ -191,10 +193,11 @@ public class AddNew extends AppCompatActivity {
                     Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
                 }
             //podmínka pro aktuální rok - není měsíc větší než aktuální? není den v měsíci větší než aktuální? - není -> provede se
-            }else if((Integer.parseInt(vstupDatumRok.getText().toString())==LocalDate.now().getYear())
-                    &&!(Integer.parseInt(vstupDatumDen.getText().toString())>LocalDate.now().getDayOfMonth()
-                    &&Integer.parseInt(vstupDatumMesic.getText().toString())==LocalDate.now().getMonthValue())
-                    &&!(Integer.parseInt(vstupDatumMesic.getText().toString())>LocalDate.now().getMonthValue())) {
+            }else if((datumRok==LocalDate.now().getYear())
+                    &&!(datumDen>LocalDate.now().getDayOfMonth()
+                    &&datumMesic==LocalDate.now().getMonthValue())
+                    &&!(datumMesic>LocalDate.now().getMonthValue())
+                    &&jePlatneDatum(datumDen,datumMesic,datumRok)) {
 
                 zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie, imageUriString);
 
@@ -230,6 +233,31 @@ public class AddNew extends AppCompatActivity {
             }
         }
     }
+    public boolean jePlatneDatum(int den, int mesic, int rok) {
+
+        if (mesic < 1 || mesic > 12) return false;
+
+        int maxDnu;
+
+        switch (mesic) {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                maxDnu = 31; break;
+            case 4: case 6: case 9: case 11:
+                maxDnu = 30; break;
+            case 2:
+                if(rok % 4 == 0) {
+                    maxDnu = 29;
+                }else{
+                    maxDnu = 28;
+                }
+                break;
+            default:
+                return false;
+        }
+
+        return den >= 1 && den <= maxDnu;
+    }
+
     private boolean checkStoragePermissions(){
         boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 == (PackageManager.PERMISSION_GRANTED);

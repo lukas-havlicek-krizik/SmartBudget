@@ -317,7 +317,9 @@ public class UpdateDetails extends AppCompatActivity {
             }
 
             //je-li rok menší než aktuální
-            if((Integer.parseInt(vstupDatumRok.getText().toString())<LocalDate.now().getYear())) {
+            if(datumRok<LocalDate.now().getYear()
+                    &&jePlatneDatum(datumDen,datumMesic,datumRok)) {
+
                 if (puvodniZbyLimit != zbyvajiciLimitCislo) {
                     SharedPreferences.Editor spE = spL.edit();
                     spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
@@ -329,10 +331,12 @@ public class UpdateDetails extends AppCompatActivity {
                 Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
                 startActivity(intentOverview);
             //pokud je rok aktuální
-            }else if((Integer.parseInt(vstupDatumRok.getText().toString())==LocalDate.now().getYear())
-                        &&!(Integer.parseInt(vstupDatumDen.getText().toString())>LocalDate.now().getDayOfMonth()
-                            &&Integer.parseInt(vstupDatumMesic.getText().toString())==LocalDate.now().getMonthValue())
-                        &&!(Integer.parseInt(vstupDatumMesic.getText().toString())>LocalDate.now().getMonthValue())) {
+            }else if((datumRok==LocalDate.now().getYear())
+                        &&!(datumDen>LocalDate.now().getDayOfMonth()
+                            &&datumMesic==LocalDate.now().getMonthValue())
+                        &&!(datumMesic>LocalDate.now().getMonthValue())
+                        &&jePlatneDatum(datumDen,datumMesic,datumRok)) {
+
                 if (puvodniZbyLimit != zbyvajiciLimitCislo) {
                     SharedPreferences.Editor spE = spL.edit();
                     spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
@@ -344,7 +348,7 @@ public class UpdateDetails extends AppCompatActivity {
                 Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
                 startActivity(intentOverview);
             }else{
-                Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Chybné datum.", Toast.LENGTH_LONG).show();
             }
 
         }else {
@@ -354,6 +358,30 @@ public class UpdateDetails extends AppCompatActivity {
                 Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
             }
         }
+    }
+    public boolean jePlatneDatum(int den, int mesic, int rok) {
+
+        if (mesic < 1 || mesic > 12) return false;
+
+        int maxDnu;
+
+        switch (mesic) {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                maxDnu = 31; break;
+            case 4: case 6: case 9: case 11:
+                maxDnu = 30; break;
+            case 2:
+                if(rok % 4 == 0) {
+                    maxDnu = 29;
+                }else{
+                    maxDnu = 28;
+                }
+                break;
+            default:
+                return false;
+        }
+
+        return den >= 1 && den <= maxDnu;
     }
     private boolean checkStoragePermissions(){
         boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -475,7 +503,6 @@ public class UpdateDetails extends AppCompatActivity {
             }
         }
     }
-
     @Override
     protected void onResume() {
         zaznamDBoperation.open();
