@@ -49,9 +49,9 @@ public class Spendings extends AppCompatActivity {
 
         List<Zaznam> values = zaznamDBoperations.getVydajeZaRok(rokPref);
 
-        ArrayAdapter<Zaznam> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, values);
+        ArrayAdapter<Zaznam> adapter = new ArrayAdapter<>(this, R.layout.listview_list_item, values);
         listView.setAdapter(adapter);
-        textView.setText("Útrata za rok " + rokPref);
+        textView.setText("ÚTRATA ZA ROK " + rokPref);
 
         if(Integer.parseInt(rokPref)==rok){
             dalsiRok.setVisibility(View.INVISIBLE);
