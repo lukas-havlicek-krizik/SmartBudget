@@ -100,8 +100,9 @@ public class AddNew extends AppCompatActivity {
                 }
             }
         });
+
         spL = getSharedPreferences("limits",MODE_PRIVATE);
-        nastavenyLimitPref = spL.getString("nastavenyLimit",String.valueOf(1000));
+        nastavenyLimitPref = spL.getString("nastavenyLimit",String.valueOf(0));
         aktualMesic = spL.getString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
 
         if(!aktualMesic.equals(String.valueOf(LocalDate.now().getMonthValue()))){
@@ -111,8 +112,10 @@ public class AddNew extends AppCompatActivity {
             spE.commit();
         }
 
-        zbyvajiciLimitPref = spL.getString("zbyvajiciLimit",nastavenyLimitPref);
-        zbyvajiciLimitCislo = Double.parseDouble(zbyvajiciLimitPref);
+        if(Integer.parseInt(nastavenyLimitPref)!=0) {
+            zbyvajiciLimitPref = spL.getString("zbyvajiciLimit", nastavenyLimitPref);
+            zbyvajiciLimitCislo = Double.parseDouble(zbyvajiciLimitPref);
+        }
 
         obrazek.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +144,8 @@ public class AddNew extends AppCompatActivity {
                 ||vstupDatumRok.getText().toString().isEmpty())
             &&(Integer.parseInt(vstupDatumRok.getText().toString())<=LocalDate.now().getYear())
             &&(Integer.parseInt(vstupDatumRok.getText().toString())>=2020)
-            &&!vstupCastka.getText().toString().isEmpty()) {
+            &&!vstupCastka.getText().toString().isEmpty()
+            &&Integer.parseInt(nastavenyLimitPref)!=0) {
             String typ;
             int datumDen;
             int datumMesic;
@@ -154,6 +158,7 @@ public class AddNew extends AppCompatActivity {
             } else {
                 typ = "Příjem";
             }
+
             datumDen = Integer.parseInt(vstupDatumDen.getText().toString());
             datumMesic = Integer.parseInt(vstupDatumMesic.getText().toString());
             datumRok = Integer.parseInt(vstupDatumRok.getText().toString());
@@ -161,6 +166,7 @@ public class AddNew extends AppCompatActivity {
             kategorie = spinner.getSelectedItem().toString();
             imageUriString = (imageUri != null) ? imageUri.toString() : "";
 
+            //podmínka - je napsaný rok menší než aktuální? - ano -> provede se
             if((Integer.parseInt(vstupDatumRok.getText().toString())<LocalDate.now().getYear())) {
                 zaznamDBoperation.addZaznam(typ, datumDen, datumMesic, datumRok, castka, kategorie, imageUriString);
 
@@ -184,7 +190,7 @@ public class AddNew extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
                 }
-
+            //podmínka pro aktuální rok - není měsíc větší než aktuální? není den v měsíci větší než aktuální? - není -> provede se
             }else if((Integer.parseInt(vstupDatumRok.getText().toString())==LocalDate.now().getYear())
                     &&!(Integer.parseInt(vstupDatumDen.getText().toString())>LocalDate.now().getDayOfMonth()
                     &&Integer.parseInt(vstupDatumMesic.getText().toString())==LocalDate.now().getMonthValue())
@@ -213,11 +219,15 @@ public class AddNew extends AppCompatActivity {
                     Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
                 }
             }else{
-                Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Chybné datum.", Toast.LENGTH_LONG).show();
             }
 
         }else {
-            Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
+            if(Integer.parseInt(nastavenyLimitPref)==0){
+                Toast.makeText(this, "Prvně si nastavte limit.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
+            }
         }
     }
     private boolean checkStoragePermissions(){
@@ -344,10 +354,6 @@ public class AddNew extends AppCompatActivity {
             }
         }
     }
-
-
-
-
     @Override
     protected void onResume() {
         zaznamDBoperation.open();

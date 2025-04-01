@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +33,7 @@ public class Limits extends AppCompatActivity {
         zbyvaLimitCastka = findViewById(R.id.zbyvalimitVstup);
 
         sp = getSharedPreferences("limits",MODE_PRIVATE);
-        nastavenyLimitPref = sp.getString("nastavenyLimit",String.valueOf(1000));
+        nastavenyLimitPref = sp.getString("nastavenyLimit",String.valueOf(0));
         aktualMesic = sp.getString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
 
         if(!aktualMesic.equals(String.valueOf(LocalDate.now().getMonthValue()))){
@@ -42,10 +43,11 @@ public class Limits extends AppCompatActivity {
             spE.commit();
         }
 
-        zbyvajiciLimitPref = sp.getString("zbyvajiciLimit",nastavenyLimitPref);
-
-        nastavLimitCastka.setText(nastavenyLimitPref);
-        zbyvaLimitCastka.setText(zbyvajiciLimitPref);
+        if(Integer.parseInt(nastavenyLimitPref)!=0) {
+            zbyvajiciLimitPref = sp.getString("zbyvajiciLimit",nastavenyLimitPref);
+            nastavLimitCastka.setText(nastavenyLimitPref);
+            zbyvaLimitCastka.setText(zbyvajiciLimitPref);
+        }
 
     }
     public void changeScreen(View view){
@@ -54,11 +56,25 @@ public class Limits extends AppCompatActivity {
     }
 
     public void nastavLimit(View view){
-        SharedPreferences.Editor spE= sp.edit();
-        spE.putString("nastavenyLimit",nastavLimitCastka.getText().toString());
-        spE.putString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
-        spE.commit();
-        finish();
-        startActivity(getIntent());
+        String limitText = nastavLimitCastka.getText().toString();
+        if(!limitText.isEmpty()) {
+            try {
+                int limit = Integer.parseInt(limitText);
+                if (limit != 0) {
+                    SharedPreferences.Editor spE = sp.edit();
+                    spE.putString("nastavenyLimit", nastavLimitCastka.getText().toString());
+                    spE.putString("aktualMesic", String.valueOf(LocalDate.now().getMonthValue()));
+                    spE.commit();
+                    finish();
+                    startActivity(getIntent());
+                } else {
+                    Toast.makeText(this, "Limit nesmí být 0.", Toast.LENGTH_LONG).show();
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Zadejte platné číslo.", Toast.LENGTH_LONG).show();
+            }
+        }else{
+            Toast.makeText(this, "Nastavte limit.", Toast.LENGTH_LONG).show();
+        }
     }
 }

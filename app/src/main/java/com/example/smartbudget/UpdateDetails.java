@@ -133,7 +133,7 @@ public class UpdateDetails extends AppCompatActivity {
         }
 
         spL = getSharedPreferences("limits",MODE_PRIVATE);
-        nastavenyLimitPref = spL.getString("nastavenyLimit",String.valueOf(1000));
+        nastavenyLimitPref = spL.getString("nastavenyLimit",String.valueOf(0));
         aktualMesic = spL.getString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
 
         if(!aktualMesic.equals(String.valueOf(LocalDate.now().getMonthValue()))){
@@ -142,9 +142,12 @@ public class UpdateDetails extends AppCompatActivity {
             spE.putString("aktualMesic",String.valueOf(LocalDate.now().getMonthValue()));
             spE.commit();
         }
-        zbyvajiciLimitPref = spL.getString("zbyvajiciLimit",nastavenyLimitPref);
-        zbyvajiciLimitCislo = Double.parseDouble(zbyvajiciLimitPref);
-        puvodniZbyLimit = zbyvajiciLimitCislo;
+
+        if(Integer.parseInt(nastavenyLimitPref)!=0) {
+            zbyvajiciLimitPref = spL.getString("zbyvajiciLimit", nastavenyLimitPref);
+            zbyvajiciLimitCislo = Double.parseDouble(zbyvajiciLimitPref);
+            puvodniZbyLimit = zbyvajiciLimitCislo;
+        }
 
         obrazek.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,7 +222,8 @@ public class UpdateDetails extends AppCompatActivity {
                 ||vstupDatumRok.getText().toString().isEmpty())
             &&(Integer.parseInt(vstupDatumRok.getText().toString())<=LocalDate.now().getYear())
             &&(Integer.parseInt(vstupDatumRok.getText().toString())>=2020)
-            &&!vstupCastka.getText().toString().isEmpty()) {
+            &&!vstupCastka.getText().toString().isEmpty()
+            &&Integer.parseInt(nastavenyLimitPref)!=0) {
             intent = getIntent();
             String typ;
             int datumDen;
@@ -344,7 +348,11 @@ public class UpdateDetails extends AppCompatActivity {
             }
 
         }else {
-            Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
+            if(Integer.parseInt(nastavenyLimitPref)==0){
+                Toast.makeText(this, "Prvně si nastavte limit.", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
+            }
         }
     }
     private boolean checkStoragePermissions(){
