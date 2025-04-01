@@ -53,7 +53,7 @@ public class Overview extends AppCompatActivity {
 
 
         List<Zaznam> values = zaznamDBoperations.getAllZaznamy(checkBox.isChecked(), aktualMesic, aktualRok);
-        ArrayAdapter<Zaznam> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, values);
+        ArrayAdapter<Zaznam> adapter = new ArrayAdapter<>(this, R.layout.listview_list_item, values);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
