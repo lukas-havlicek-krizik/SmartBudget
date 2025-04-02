@@ -65,7 +65,7 @@ public class Limits extends AppCompatActivity {
                     spE.putString("nastavenyLimit", nastavLimitCastka.getText().toString());
                     spE.putString("aktualMesic", String.valueOf(LocalDate.now().getMonthValue()));
                     spE.commit();
-                    Toast.makeText(this, getString(R.string.zadej_nastavLimit), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.toast_limitNastaven), Toast.LENGTH_LONG).show();
                     finish();
                     startActivity(getIntent());
                 } else {
@@ -75,7 +75,7 @@ public class Limits extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.toast_platneCislo), Toast.LENGTH_LONG).show();
             }
         }else{
-            Toast.makeText(this, getString(R.string.toast_limitNastaven), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.zadej_nastavLimit), Toast.LENGTH_LONG).show();
         }
     }
 }

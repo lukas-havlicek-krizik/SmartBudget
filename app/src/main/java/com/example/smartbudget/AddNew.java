@@ -239,8 +239,8 @@ public class AddNew extends AppCompatActivity {
         }else {
             if(Integer.parseInt(nastavenyLimitPref)==0){
                 Toast.makeText(this, getString(R.string.toast_nastavSvujLimit), Toast.LENGTH_LONG).show();
-            }else if ((Integer.parseInt(vstupDatumRok.getText().toString())<=LocalDate.now().getYear())
-                       ||(Integer.parseInt(vstupDatumRok.getText().toString())>=2020)){
+            }else if (!(Integer.parseInt(vstupDatumRok.getText().toString())<=LocalDate.now().getYear())
+                       ||!(Integer.parseInt(vstupDatumRok.getText().toString())>=2020)){
                 Toast.makeText(this, getString(R.string.toast_chybnyRok), Toast.LENGTH_LONG).show();
             }else {
                 Toast.makeText(this, getString(R.string.toast_vyplnitVsechnaPole), Toast.LENGTH_LONG).show();
