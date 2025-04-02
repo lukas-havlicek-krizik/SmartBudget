@@ -46,7 +46,7 @@
     <string name="button_smazatZaznam">SMAZAT</string>
     <string name="switch_databaseVydaj">Výdaj</string>
     <string name="switch_databasePrijem">Příjem</string>
-    <string name="toast_zaznamPridatLimit">Úspěšně přidáno.\\nZbývající limit:</string>
+    <string name="toast_zaznamPridatLimit">Úspěšně přidáno. Zbývající limit:</string>
     <string name="toast_zaznamPridat">Úspěšně přidáno.</string>
     <string name="toast_chybneDatum">Chybné datum.</string>
     <string name="toast_nastavSvujLimit">Prvně si nastavte limit.</string>
