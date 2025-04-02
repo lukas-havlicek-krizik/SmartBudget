@@ -51,7 +51,7 @@ public class UpdateDetails extends AppCompatActivity {
     private String[] cameraPermissions;
     private String[] storagePermissions;
     Uri imageUri, obrazekUri;
-    ImageButton btnDeleteImg;
+    ImageButton btnDeleteImg, btnShowImg;
     String imageUriString;
     boolean jeFotka;
     @Override
@@ -72,6 +72,7 @@ public class UpdateDetails extends AppCompatActivity {
         prepinac = findViewById(R.id.prepinac);
         obrazek = findViewById(R.id.imageView);
         btnDeleteImg = findViewById(R.id.btnDeleteImg);
+        btnShowImg = findViewById(R.id.btnShowImg);
 
         cameraPermissions = new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -114,6 +115,7 @@ public class UpdateDetails extends AppCompatActivity {
                         if (documentFile != null && documentFile.exists()) {
                             obrazek.setImageURI(obrazekUri);
                             btnDeleteImg.setVisibility(View.VISIBLE);
+                            btnShowImg.setVisibility(View.VISIBLE);
                             jeFotka = true;
                         } else {
                             Log.e("IMAGE_ERROR", "DocumentFile neexistuje.");
@@ -157,8 +159,10 @@ public class UpdateDetails extends AppCompatActivity {
         });
         if(obrazekUri!=null){
             btnDeleteImg.setVisibility(View.VISIBLE);
+            btnShowImg.setVisibility(View.VISIBLE);
         }else{
             btnDeleteImg.setVisibility(View.INVISIBLE);
+            btnShowImg.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -171,7 +175,17 @@ public class UpdateDetails extends AppCompatActivity {
         imageUri = null;
         obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
         btnDeleteImg.setVisibility(View.INVISIBLE);
+        btnShowImg.setVisibility(View.INVISIBLE);
         jeFotka = false;
+    }
+    public void ukazFoto(View view){
+        Intent intentPhoto = new Intent(UpdateDetails.this, ShowPhoto.class);
+        if(imageUri!=null) {
+            intentPhoto.putExtra("obrazek", imageUri.toString());
+        }else{
+            intentPhoto.putExtra("obrazek", obrazekUri.toString());
+        }
+        startActivity(intentPhoto);
     }
     public void smazatZaznam(View view){
         intent = getIntent();
@@ -484,6 +498,7 @@ public class UpdateDetails extends AppCompatActivity {
                 // Získání obrázku z kamery
                 obrazek.setImageURI(imageUri);
                 btnDeleteImg.setVisibility(View.VISIBLE);
+                btnShowImg.setVisibility(View.VISIBLE);
                 jeFotka = true;
             } else if (requestCode == IMAGE_PICK_GALLERY_CODE && data != null) {
                 // Získání obrázku z galerie
@@ -497,6 +512,7 @@ public class UpdateDetails extends AppCompatActivity {
                         );
                         obrazek.setImageURI(imageUri);
                         btnDeleteImg.setVisibility(View.VISIBLE);
+                        btnShowImg.setVisibility(View.VISIBLE);
                         jeFotka = true;
                     }
                 }

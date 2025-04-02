@@ -51,7 +51,7 @@ public class AddNew extends AppCompatActivity {
     private String[] cameraPermissions;
     private String[] storagePermissions;
     Uri imageUri;
-    ImageButton btnDeleteImg;
+    ImageButton btnDeleteImg, btnShowImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,7 @@ public class AddNew extends AppCompatActivity {
         vstupCastka = findViewById(R.id.vstupCastka);
         obrazek = findViewById(R.id.imageView);
         btnDeleteImg = findViewById(R.id.btnDeleteImg);
+        btnShowImg = findViewById(R.id.btnShowImg);
 
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -125,6 +126,7 @@ public class AddNew extends AppCompatActivity {
         });
 
         btnDeleteImg.setVisibility(View.INVISIBLE);
+        btnShowImg.setVisibility(View.INVISIBLE);
 
 
     }
@@ -137,6 +139,13 @@ public class AddNew extends AppCompatActivity {
         imageUri = null;
         obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
         btnDeleteImg.setVisibility(View.INVISIBLE);
+        btnShowImg.setVisibility(View.INVISIBLE);
+    }
+
+    public void ukazFoto(View view){
+        Intent intentPhoto = new Intent(AddNew.this, ShowPhoto.class);
+        intentPhoto.putExtra("obrazek",imageUri.toString());
+        startActivity(intentPhoto);
     }
     public void addZaznam(View view) {
         if(!(vstupDatumDen.getText().toString().isEmpty()
@@ -181,6 +190,7 @@ public class AddNew extends AppCompatActivity {
                 imageUri = null;
                 obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
                 btnDeleteImg.setVisibility(View.INVISIBLE);
+                btnShowImg.setVisibility(View.INVISIBLE);
 
                 if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()
                                         && datumRok == LocalDate.now().getYear()) {
@@ -210,6 +220,7 @@ public class AddNew extends AppCompatActivity {
                 imageUri = null;
                 obrazek.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
                 btnDeleteImg.setVisibility(View.INVISIBLE);
+                btnShowImg.setVisibility(View.INVISIBLE);
 
                 if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()
                                         && datumRok == LocalDate.now().getYear()) {
@@ -279,7 +290,7 @@ public class AddNew extends AppCompatActivity {
     private void imagePickDialog() {
         String[] moznosti = {"Kamera", "Galerie"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Vyberte obrázek z");
+        builder.setTitle("Vyberte obrázek z:");
         builder.setItems(moznosti, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -365,6 +376,7 @@ public class AddNew extends AppCompatActivity {
                 // Získání obrázku z kamery
                 obrazek.setImageURI(imageUri);
                 btnDeleteImg.setVisibility(View.VISIBLE);
+                btnShowImg.setVisibility(View.VISIBLE);
             } else if (requestCode == IMAGE_PICK_GALLERY_CODE && data != null) {
                 // Získání obrázku z galerie
                 imageUri = data.getData();
@@ -377,6 +389,7 @@ public class AddNew extends AppCompatActivity {
                         );
                         obrazek.setImageURI(imageUri);
                         btnDeleteImg.setVisibility(View.VISIBLE);
+                        btnShowImg.setVisibility(View.VISIBLE);
                     }
                 }
             }
