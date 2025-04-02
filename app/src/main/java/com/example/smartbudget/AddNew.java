@@ -163,9 +163,9 @@ public class AddNew extends AppCompatActivity {
             String kategorie;
 
             if (prepinac.isChecked()) {
-                typ = "Výdaj";
+                typ = getString(R.string.switch_databaseVydaj);
             } else {
-                typ = "Příjem";
+                typ = getString(R.string.switch_databasePrijem);
             }
 
             datumDen = Integer.parseInt(vstupDatumDen.getText().toString());
@@ -192,15 +192,15 @@ public class AddNew extends AppCompatActivity {
                 btnDeleteImg.setVisibility(View.INVISIBLE);
                 btnShowImg.setVisibility(View.INVISIBLE);
 
-                if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()
+                if (typ.equals(getString(R.string.switch_databaseVydaj)) && datumMesic == LocalDate.now().getMonthValue()
                                         && datumRok == LocalDate.now().getYear()) {
                     zbyvajiciLimitCislo -= castka;
                     SharedPreferences.Editor spE = spL.edit();
                     spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
                     spE.commit();
-                    Toast.makeText(this, "Záznam přidán.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.toast_zaznamPridatLimit) + " " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.toast_zaznamPridat), Toast.LENGTH_LONG).show();
                 }
             //podmínka pro aktuální rok - není měsíc větší než aktuální? není den v měsíci větší než aktuální? - není -> provede se
             }else if((datumRok==LocalDate.now().getYear())
@@ -222,25 +222,28 @@ public class AddNew extends AppCompatActivity {
                 btnDeleteImg.setVisibility(View.INVISIBLE);
                 btnShowImg.setVisibility(View.INVISIBLE);
 
-                if (typ.equals("Výdaj") && datumMesic == LocalDate.now().getMonthValue()
+                if (typ.equals(getString(R.string.switch_databaseVydaj)) && datumMesic == LocalDate.now().getMonthValue()
                                         && datumRok == LocalDate.now().getYear()) {
                     zbyvajiciLimitCislo -= castka;
                     SharedPreferences.Editor spE = spL.edit();
                     spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
                     spE.commit();
-                    Toast.makeText(this, "Záznam přidán.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.toast_zaznamPridatLimit) + " " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(this, "Záznam přidán.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.toast_zaznamPridat), Toast.LENGTH_LONG).show();
                 }
             }else{
-                Toast.makeText(this, "Chybné datum.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.toast_chybneDatum), Toast.LENGTH_LONG).show();
             }
 
         }else {
             if(Integer.parseInt(nastavenyLimitPref)==0){
-                Toast.makeText(this, "Prvně si nastavte limit.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.toast_nastavSvujLimit), Toast.LENGTH_LONG).show();
+            }else if ((Integer.parseInt(vstupDatumRok.getText().toString())<=LocalDate.now().getYear())
+                       ||(Integer.parseInt(vstupDatumRok.getText().toString())>=2020)){
+                Toast.makeText(this, getString(R.string.toast_chybnyRok), Toast.LENGTH_LONG).show();
             }else {
-                Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.toast_vyplnitVsechnaPole), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -288,9 +291,9 @@ public class AddNew extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
     }
     private void imagePickDialog() {
-        String[] moznosti = {"Kamera", "Galerie"};
+        String[] moznosti = {getString(R.string.vyber_kamera), getString(R.string.vyber_galerie)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Vyberte obrázek z:");
+        builder.setTitle(getString(R.string.vyber_nadpis));
         builder.setItems(moznosti, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -351,7 +354,7 @@ public class AddNew extends AppCompatActivity {
                             vybratZKamera();
                         }
                     }else{
-                        Toast.makeText(this, "Musíte povolit přístup ke kameře a úložišti.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.toast_povoleniKameraUloziste), Toast.LENGTH_LONG).show();
                     }
                 }
             }break;
@@ -362,7 +365,7 @@ public class AddNew extends AppCompatActivity {
                         //uloziste povoleno
                         vybratZGalerie();
                     }else{
-                        Toast.makeText(this, "Musíte povolit přístup k úložišti.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.toast_povoleniUlozisteOnly), Toast.LENGTH_LONG).show();
                     }
                 }
             }

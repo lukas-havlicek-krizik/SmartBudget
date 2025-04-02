@@ -1,5 +1,6 @@
 package com.example.smartbudget;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -47,11 +48,11 @@ public class Spendings extends AppCompatActivity {
         sp = getSharedPreferences("package",MODE_PRIVATE);
         rokPref = sp.getString("aktualRok",String.valueOf(rok));
 
-        List<Zaznam> values = zaznamDBoperations.getVydajeZaRok(rokPref);
+        List<Zaznam> values = zaznamDBoperations.getVydajeZaRok(rokPref,this);
 
         ArrayAdapter<Zaznam> adapter = new ArrayAdapter<>(this, R.layout.listview_list_item, values);
         listView.setAdapter(adapter);
-        textView.setText("ÚTRATA ZA ROK " + rokPref);
+        textView.setText(getString(R.string.spendings_nadpis) + " " + rokPref);
 
         if(Integer.parseInt(rokPref)==rok){
             dalsiRok.setVisibility(View.INVISIBLE);

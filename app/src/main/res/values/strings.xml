@@ -19,7 +19,7 @@
     <string name="addnew_pridat">ADD</string>
     <string name="switch_prijem">INCOME</string>
     <string name="switch_vydaj">EXPENSE</string>
-    <string name="zadej_castka">Amount</string>
+    <string name="zadej_castka">Amount in CZK</string>
     <string name="button_zpet">RETURN</string>
     <string name="button_ulozit">SAVE</string>
     <string name="zadej_rok">YYYY</string>
@@ -28,7 +28,7 @@
     <string name="button_smazatFoto">Delete</string>
     <string name="limit_mesicniLimit">MONTH LIMIT</string>
     <string name="limit_nastavenyLimit">Set limit:</string>
-    <string name="zadej_nastavLimit">Set Your Limit</string>
+    <string name="zadej_nastavLimit">Set your limit.</string>
     <string name="limit_zbyvaLimit">Remains:</string>
     <string name="limit_zobrazZbyv">...</string>
     <string name="button_nastavLimit">SET</string>
@@ -42,6 +42,40 @@
     <string name="button_nasledRok">NEXT YEAR</string>
     <string name="updatedetails_nadpis">DETAILS</string>
     <string name="button_smazatZaznam">DELETE</string>
+    <string name="switch_databaseVydaj">Expense</string>
+    <string name="switch_databasePrijem">Income</string>
+    <string name="toast_zaznamPridatLimit">Added successfully. Remaining limit:</string>
+    <string name="toast_zaznamPridat">Added successfully.</string>
+    <string name="toast_chybneDatum">Wrong date.</string>
+    <string name="toast_nastavSvujLimit">Set your limit first.</string>
+    <string name="toast_chybnyRok">Wrong year.</string>
+    <string name="toast_vyplnitVsechnaPole">Please fill in all field.</string>
+    <string name="vyber_nadpis">Choose image from...</string>
+    <string name="vyber_kamera">Camera</string>
+    <string name="vyber_galerie">Gallery</string>
+    <string name="toast_limitNull">Limit can\'t be 0.</string>
+    <string name="toast_platneCislo">Please enter a valid number.</string>
+    <string name="toast_limitNastaven">Limit set.</string>
+    <string name="spendings_nadpis">SPENDING FOR YEAR</string>
+    <string name="toast_zaznamSmazanLimit">Deleted successfully. Remaining limit:</string>
+    <string name="toast_zaznamSmazan">Deleted successfully.</string>
+    <string name="toast_zaznamUpdateLimit">Updated successfully. Remaining limit:</string>
+    <string name="toast_zaznamUpdate">Updated successfully.</string>
+    <string name="toast_povoleniKameraUloziste">You must allow access to the camera and storage.</string>
+    <string name="toast_povoleniUlozisteOnly">You must allow access to the storage.</string>
+    <string name="mesic1">January</string>
+    <string name="mesic2">February</string>
+    <string name="mesic3">March</string>
+    <string name="mesic4">April</string>
+    <string name="mesic5">May</string>
+    <string name="mesic6">June</string>
+    <string name="mesic7">July</string>
+    <string name="mesic8">August</string>
+    <string name="mesic9">September</string>
+    <string name="mesic10">October</string>
+    <string name="mesic11">November</string>
+    <string name="mesic12">December</string>
+
 
 
 </resources>

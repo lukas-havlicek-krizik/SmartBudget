@@ -113,12 +113,12 @@ public class ZaznamOperations {
         database.update(DataBase.ZAZNAMY, values, DataBase.ZAZNAM_ID + "=" + id,null);
     }
 
-    public List getVydajeZaRok(String rok){
+    public List getVydajeZaRok(String rok, Context context){
         List vydajeList = new ArrayList();
 
         Cursor cursor = database.query(DataBase.ZAZNAMY,
                 new String[]{DataBase.ZAZNAM_DATUM_MESIC, "SUM (" + DataBase.ZAZNAM_CASTKA + ") AS vydajZaMesic"},
-                DataBase.ZAZNAM_DATUM_ROK + " = ? AND " + DataBase.ZAZNAM_TYP + " = 'Výdaj'", new String[]{rok},
+                DataBase.ZAZNAM_DATUM_ROK + " = ? AND " + DataBase.ZAZNAM_TYP + " = ?", new String[]{rok, context.getString(R.string.switch_databaseVydaj)},
                 DataBase.ZAZNAM_DATUM_MESIC,
                 null,
                 DataBase.ZAZNAM_DATUM_MESIC + " ASC");
@@ -129,18 +129,18 @@ public class ZaznamOperations {
             double celkoveVydaje = cursor.getDouble(cursor.getColumnIndexOrThrow("vydajZaMesic"));
             String mesicNazev;
             switch (mesic) {
-                case 1: mesicNazev = "Leden"; break;
-                case 2: mesicNazev = "Únor"; break;
-                case 3: mesicNazev = "Březen"; break;
-                case 4: mesicNazev = "Duben"; break;
-                case 5: mesicNazev = "Květen"; break;
-                case 6: mesicNazev = "Červen"; break;
-                case 7: mesicNazev = "Červenec"; break;
-                case 8: mesicNazev = "Srpen"; break;
-                case 9: mesicNazev = "Září"; break;
-                case 10: mesicNazev = "Říjen"; break;
-                case 11: mesicNazev = "Listopad"; break;
-                case 12: mesicNazev = "Prosinec"; break;
+                case 1: mesicNazev = context.getString(R.string.mesic1); break;
+                case 2: mesicNazev = context.getString(R.string.mesic2); break;
+                case 3: mesicNazev = context.getString(R.string.mesic3); break;
+                case 4: mesicNazev = context.getString(R.string.mesic4); break;
+                case 5: mesicNazev = context.getString(R.string.mesic5); break;
+                case 6: mesicNazev = context.getString(R.string.mesic6); break;
+                case 7: mesicNazev = context.getString(R.string.mesic7); break;
+                case 8: mesicNazev = context.getString(R.string.mesic8); break;
+                case 9: mesicNazev = context.getString(R.string.mesic9); break;
+                case 10: mesicNazev = context.getString(R.string.mesic10); break;
+                case 11: mesicNazev = context.getString(R.string.mesic11); break;
+                case 12: mesicNazev = context.getString(R.string.mesic12); break;
                 default: mesicNazev = ""; break;
             }
             vydajeList.add(mesicNazev + ": " + celkoveVydaje);

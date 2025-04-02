@@ -102,7 +102,7 @@ public class UpdateDetails extends AppCompatActivity {
             vstupCastka.setText(String.valueOf(intent.getDoubleExtra("castka", 0)));
             prepinac.setChecked(true);
             prepinac.setChecked(false);
-            prepinac.setChecked("Výdaj".equals(intent.getStringExtra("typ")));
+            prepinac.setChecked(getString(R.string.switch_databaseVydaj).equals(intent.getStringExtra("typ")));
             kategorie.setSelection(adapter.getPosition(intent.getStringExtra("kategorie")));
 
             String obrazekString = intent.getStringExtra("obrazek");
@@ -195,9 +195,9 @@ public class UpdateDetails extends AppCompatActivity {
         int datumRok;
 
         if (prepinac.isChecked()) {
-            typ = "Výdaj";
+            typ = getString(R.string.switch_databaseVydaj);
         } else {
-            typ = "Příjem";
+            typ = getString(R.string.switch_databasePrijem);
         }
 
 
@@ -207,9 +207,9 @@ public class UpdateDetails extends AppCompatActivity {
         long idZIntent = intent.getLongExtra("id",defaultniHodnota);
         zaznamDBoperation.deleteZaznam(idZIntent);
 
-        if(typ.equals("Výdaj")
+        if(typ.equals(getString(R.string.switch_databaseVydaj))
                 &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
-                &&intent.getStringExtra("typ").equals("Výdaj")
+                &&intent.getStringExtra("typ").equals(getString(R.string.switch_databaseVydaj))
                 &&datumMesic==LocalDate.now().getMonthValue()
                 &&datumRok == LocalDate.now().getYear()){
 
@@ -222,9 +222,9 @@ public class UpdateDetails extends AppCompatActivity {
             SharedPreferences.Editor spE = spL.edit();
             spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
             spE.commit();
-            Toast.makeText(this, "Záznam smazán.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.toast_zaznamSmazanLimit) + " " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
         }else{
-            Toast.makeText(this, "Záznam smazán.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.toast_zaznamSmazan), Toast.LENGTH_LONG).show();
         }
 
         Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
@@ -238,6 +238,7 @@ public class UpdateDetails extends AppCompatActivity {
             &&(Integer.parseInt(vstupDatumRok.getText().toString())>=2020)
             &&!vstupCastka.getText().toString().isEmpty()
             &&Integer.parseInt(nastavenyLimitPref)!=0) {
+
             intent = getIntent();
             String typ;
             int datumDen;
@@ -248,9 +249,9 @@ public class UpdateDetails extends AppCompatActivity {
             double rozdil;
 
             if (prepinac.isChecked()) {
-                typ = "Výdaj";
+                typ = getString(R.string.switch_databaseVydaj);
             } else {
-                typ = "Příjem";
+                typ = getString(R.string.switch_databasePrijem);
             }
 
             datumDen = Integer.parseInt(vstupDatumDen.getText().toString());
@@ -270,7 +271,7 @@ public class UpdateDetails extends AppCompatActivity {
             }
 
             //datum bylo aktualni - uživatel mění pouze částku - částku zvyšuje
-            if(typ.equals("Výdaj")
+            if(typ.equals(getString(R.string.switch_databaseVydaj))
                     &&datumMesic==LocalDate.now().getMonthValue()
                     &&datumRok == LocalDate.now().getYear()
                     &&intent.getDoubleExtra("castka", 0)<castka
@@ -280,7 +281,7 @@ public class UpdateDetails extends AppCompatActivity {
                 zbyvajiciLimitCislo -= rozdil;
 
             //datum bylo aktualni - uživatel mění pouze částku - částku snižuje
-            }else if(typ.equals("Výdaj")
+            }else if(typ.equals(getString(R.string.switch_databaseVydaj))
                     &&datumMesic==LocalDate.now().getMonthValue()
                     &&datumRok == LocalDate.now().getYear()
                     &&intent.getDoubleExtra("castka", 0)>castka
@@ -294,10 +295,10 @@ public class UpdateDetails extends AppCompatActivity {
                 }
 
             //uživatel mění aktuální příjem nebo starý záznam na aktuální výdaj - odečítá se celá částka od limitu
-            }else if(typ.equals("Výdaj")
+            }else if(typ.equals(getString(R.string.switch_databaseVydaj))
                     &&datumMesic==LocalDate.now().getMonthValue()
                     &&datumRok == LocalDate.now().getYear()
-                    &&((intent.getStringExtra("typ").equals("Příjem")
+                    &&((intent.getStringExtra("typ").equals(getString(R.string.switch_databasePrijem))
                                &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
                                &&intent.getIntExtra("datumRok",0)==LocalDate.now().getYear())
                        ||
@@ -307,20 +308,20 @@ public class UpdateDetails extends AppCompatActivity {
                 zbyvajiciLimitCislo -= castka;
 
             //uživatel mění výdaj na příjem - odebraná částka se opět přidává k limitu
-            }else if(typ.equals("Příjem")
+            }else if(typ.equals(getString(R.string.switch_databasePrijem))
                     &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
                     &&intent.getIntExtra("datumRok",0)==LocalDate.now().getYear()
-                    &&intent.getStringExtra("typ").equals("Výdaj")){
+                    &&intent.getStringExtra("typ").equals(getString(R.string.switch_databaseVydaj))){
 
                 zbyvajiciLimitCislo += castka;
                 if(zbyvajiciLimitCislo>Double.parseDouble(nastavenyLimitPref)){
                     zbyvajiciLimitCislo=2000;
                 }
 
-            }else if(typ.equals("Výdaj")
+            }else if(typ.equals(getString(R.string.switch_databaseVydaj))
                     &&intent.getIntExtra("datumMesic",0)==LocalDate.now().getMonthValue()
                     &&intent.getIntExtra("datumRok",0)==LocalDate.now().getYear()
-                    &&intent.getStringExtra("typ").equals("Výdaj")
+                    &&intent.getStringExtra("typ").equals(getString(R.string.switch_databaseVydaj))
                     &&(datumMesic!=LocalDate.now().getMonthValue()||datumRok!=LocalDate.now().getYear())){
 
                 zbyvajiciLimitCislo += castka;
@@ -338,7 +339,9 @@ public class UpdateDetails extends AppCompatActivity {
                     SharedPreferences.Editor spE = spL.edit();
                     spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
                     spE.commit();
-                    Toast.makeText(this, "Záznam upraven.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.toast_zaznamUpdateLimit) + " " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(this, getString(R.string.toast_zaznamUpdate) + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
                 }
 
                 zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup, imageUriString);
@@ -355,21 +358,26 @@ public class UpdateDetails extends AppCompatActivity {
                     SharedPreferences.Editor spE = spL.edit();
                     spE.putString("zbyvajiciLimit", String.valueOf(zbyvajiciLimitCislo));
                     spE.commit();
-                    Toast.makeText(this, "Záznam upraven.\nZbývající limit: " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.toast_zaznamUpdateLimit) + " " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(this, getString(R.string.toast_zaznamUpdate) + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
                 }
 
                 zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup, imageUriString);
                 Intent intentOverview = new Intent(UpdateDetails.this, Overview.class);
                 startActivity(intentOverview);
             }else{
-                Toast.makeText(this, "Chybné datum.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.toast_chybneDatum), Toast.LENGTH_LONG).show();
             }
 
         }else {
             if(Integer.parseInt(nastavenyLimitPref)==0){
-                Toast.makeText(this, "Prvně si nastavte limit.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.toast_nastavSvujLimit), Toast.LENGTH_LONG).show();
+            }else if ((Integer.parseInt(vstupDatumRok.getText().toString())<=LocalDate.now().getYear())
+                    ||(Integer.parseInt(vstupDatumRok.getText().toString())>=2020)){
+                Toast.makeText(this, getString(R.string.toast_chybnyRok), Toast.LENGTH_LONG).show();
             }else {
-                Toast.makeText(this, "Error.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.toast_vyplnitVsechnaPole), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -416,9 +424,9 @@ public class UpdateDetails extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
     }
     private void imagePickDialog() {
-        String[] moznosti = {"Kamera", "Galerie"};
+        String[] moznosti = {getString(R.string.vyber_kamera), getString(R.string.vyber_galerie)};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Vyberte obrázek z");
+        builder.setTitle(getString(R.string.vyber_nadpis));
         builder.setItems(moznosti, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -473,7 +481,7 @@ public class UpdateDetails extends AppCompatActivity {
                         //oboje povoleno
                         vybratZGalerie();
                     }else{
-                        Toast.makeText(this, "Musíte povolit přístup ke kameře a úložišti.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.toast_povoleniKameraUloziste), Toast.LENGTH_LONG).show();
                     }
                 }
             }break;
@@ -484,7 +492,7 @@ public class UpdateDetails extends AppCompatActivity {
                         //uloziste povoleno
                         vybratZGalerie();
                     }else{
-                        Toast.makeText(this, "Musíte povolit přístup k úložišti.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.toast_povoleniUlozisteOnly), Toast.LENGTH_LONG).show();
                     }
                 }
             }

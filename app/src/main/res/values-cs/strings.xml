@@ -21,7 +21,7 @@
     <string name="addnew_pridat">PŘIDAT</string>
     <string name="switch_prijem">PŘÍJEM</string>
     <string name="switch_vydaj">VÝDAJ</string>
-    <string name="zadej_castka">Částka</string>
+    <string name="zadej_castka">Částka v Kč</string>
     <string name="button_zpet">ZPĚT</string>
     <string name="button_ulozit">ULOŽIT</string>
     <string name="zadej_rok">RRRR</string>
@@ -30,7 +30,7 @@
     <string name="button_smazatFoto">Smazat</string>
     <string name="limit_mesicniLimit">MĚSÍČNÍ LIMIT</string>
     <string name="limit_nastavenyLimit">Nastavený limit:</string>
-    <string name="zadej_nastavLimit">Nastavte svůj limit</string>
+    <string name="zadej_nastavLimit">Nastavte svůj limit.</string>
     <string name="limit_zbyvaLimit">Zbývá:</string>
     <string name="limit_zobrazZbyv">...</string>
     <string name="button_nastavLimit">NASTAVIT</string>
@@ -44,4 +44,38 @@
     <string name="button_nasledRok">NÁSLEDUJÍCÍ ROK</string>
     <string name="updatedetails_nadpis">PODROBNOSTI</string>
     <string name="button_smazatZaznam">SMAZAT</string>
+    <string name="switch_databaseVydaj">Výdaj</string>
+    <string name="switch_databasePrijem">Příjem</string>
+    <string name="toast_zaznamPridatLimit">Úspěšně přidáno.\\nZbývající limit:</string>
+    <string name="toast_zaznamPridat">Úspěšně přidáno.</string>
+    <string name="toast_chybneDatum">Chybné datum.</string>
+    <string name="toast_nastavSvujLimit">Prvně si nastavte limit.</string>
+    <string name="toast_chybnyRok">Chybný rok.</string>
+    <string name="toast_vyplnitVsechnaPole">Vyplňte, prosím, všechna pole.</string>
+    <string name="vyber_nadpis">Vyberte obrázek z...</string>
+    <string name="vyber_kamera">Fotoaparát</string>
+    <string name="vyber_galerie">Galerie</string>
+    <string name="toast_limitNull">Limit nesmí být 0.</string>
+    <string name="toast_platneCislo">Prosím, zadejte platné číslo.</string>
+    <string name="toast_limitNastaven">Limit nastaven.</string>
+    <string name="spendings_nadpis">ÚTRATY ZA ROK</string>
+    <string name="toast_zaznamSmazanLimit">Úspěšně smazáno. Zbývající limit:</string>
+    <string name="toast_zaznamSmazan">Úspěšně smazáno.</string>
+    <string name="toast_zaznamUpdateLimit">Úspěšně upraveno. Zbývající limit:</string>
+    <string name="toast_zaznamUpdate">Úspěšně upraveno.</string>
+    <string name="toast_povoleniKameraUloziste">Musíte povolit přístup ke kameře a úložišti.</string>
+    <string name="toast_povoleniUlozisteOnly">Musíte povolit přístup k úložišti.</string>
+    <string name="mesic1">Leden</string>
+    <string name="mesic2">Únor</string>
+    <string name="mesic3">Březen</string>
+    <string name="mesic4">Duben</string>
+    <string name="mesic5">Květen</string>
+    <string name="mesic6">Červen</string>
+    <string name="mesic7">Červenec</string>
+    <string name="mesic8">Srpen</string>
+    <string name="mesic9">Září</string>
+    <string name="mesic10">Říjen</string>
+    <string name="mesic11">Listopad</string>
+    <string name="mesic12">Prosinec</string>
+
 </resources>

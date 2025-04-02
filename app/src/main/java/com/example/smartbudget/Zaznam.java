@@ -57,6 +57,6 @@ public class Zaznam {
 
     @Override
     public String toString(){
-        return datumDen + "/" + datumMesic +  "/" + datumRok + " " + " | " + typ + " - " + kategorie + " | " + "\n"+ castka + " Kč";
+        return datumDen + "/" + datumMesic +  "/" + datumRok + " " + " | " + typ + " - " + kategorie + " | " + "\n"+ castka + " CZK";
     }
 }
