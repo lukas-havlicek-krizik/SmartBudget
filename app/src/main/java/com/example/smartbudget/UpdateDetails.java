@@ -341,7 +341,7 @@ public class UpdateDetails extends AppCompatActivity {
                     spE.commit();
                     Toast.makeText(this, getString(R.string.toast_zaznamUpdateLimit) + " " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
                 }else{
-                    Toast.makeText(this, getString(R.string.toast_zaznamUpdate) + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.toast_zaznamUpdate), Toast.LENGTH_LONG).show();
                 }
 
                 zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup, imageUriString);
@@ -360,7 +360,7 @@ public class UpdateDetails extends AppCompatActivity {
                     spE.commit();
                     Toast.makeText(this, getString(R.string.toast_zaznamUpdateLimit) + " " + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
                 }else{
-                    Toast.makeText(this, getString(R.string.toast_zaznamUpdate) + zbyvajiciLimitCislo, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.toast_zaznamUpdate), Toast.LENGTH_LONG).show();
                 }
 
                 zaznamDBoperation.updateZaznam(intent.getLongExtra("id", 0), typ, datumDen, datumMesic, datumRok, castka, kategorieVstup, imageUriString);
