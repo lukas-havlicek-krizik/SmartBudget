@@ -2,13 +2,46 @@
     <string name="app_name">SmartBudget</string>
 
     <string-array name="spinnerKategoriePrijem">
-        <item>Práce</item>
-        <item>Kapesné</item>
-        <item>Dar</item>
+        <item>Job</item>
+        <item>Pocket money</item>
+        <item>Gift</item>
+        <item>Other</item>
     </string-array>
+
     <string-array name="spinnerKategorieVydej">
-        <item>Jídlo</item>
-        <item>Doprava</item>
-        <item>Zábava</item>
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Fun</item>
+        <item>Clothing</item>
+        <item>Other</item>
     </string-array>
+
+    <string name="addnew_pridat">ADD</string>
+    <string name="switch_prijem">INCOME</string>
+    <string name="switch_vydaj">EXPENSE</string>
+    <string name="zadej_castka">Amount</string>
+    <string name="button_zpet">RETURN</string>
+    <string name="button_ulozit">SAVE</string>
+    <string name="zadej_rok">YYYY</string>
+    <string name="zadej_den">DD</string>
+    <string name="zadej_mesic">MM</string>
+    <string name="button_smazatFoto">Delete</string>
+    <string name="limit_mesicniLimit">MONTH LIMIT</string>
+    <string name="limit_nastavenyLimit">Set limit:</string>
+    <string name="zadej_nastavLimit">Set Your Limit</string>
+    <string name="limit_zbyvaLimit">Remains:</string>
+    <string name="limit_zobrazZbyv">...</string>
+    <string name="button_nastavLimit">SET</string>
+    <string name="button_pridat">ADD</string>
+    <string name="button_prehled">OVERVIEW</string>
+    <string name="button_limit">LIMIT</string>
+    <string name="button_utraty">SPENDINGS</string>
+    <string name="overview_nadpis">INCOMES AND EXPENSES</string>
+    <string name="overview_checkbox">Only for the current month</string>
+    <string name="button_predchRok">PREVIOUS YEAR</string>
+    <string name="button_nasledRok">NEXT YEAR</string>
+    <string name="updatedetails_nadpis">DETAILS</string>
+    <string name="button_smazatZaznam">DELETE</string>
+
+
 </resources>

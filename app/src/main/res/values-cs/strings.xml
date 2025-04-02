@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SmartBudget</string>
+
+    <string-array name="spinnerKategoriePrijem">
+        <item>Práce</item>
+        <item>Kapesné</item>
+        <item>Dar</item>
+        <item>Jiné</item>
+    </string-array>
+
+    <string-array name="spinnerKategorieVydej">
+        <item>Jídlo</item>
+        <item>Doprava</item>
+        <item>Zábava</item>
+        <item>Oblečení</item>
+        <item>Jiné</item>
+    </string-array>
+
+    <string name="addnew_pridat">PŘIDAT</string>
+    <string name="switch_prijem">PŘÍJEM</string>
+    <string name="switch_vydaj">VÝDAJ</string>
+    <string name="zadej_castka">Částka</string>
+    <string name="button_zpet">ZPĚT</string>
+    <string name="button_ulozit">ULOŽIT</string>
+    <string name="zadej_rok">RRRR</string>
+    <string name="zadej_den">DD</string>
+    <string name="zadej_mesic">MM</string>
+    <string name="button_smazatFoto">Smazat</string>
+    <string name="limit_mesicniLimit">MĚSÍČNÍ LIMIT</string>
+    <string name="limit_nastavenyLimit">Nastavený limit:</string>
+    <string name="zadej_nastavLimit">Nastavte svůj limit</string>
+    <string name="limit_zbyvaLimit">Zbývá:</string>
+    <string name="limit_zobrazZbyv">...</string>
+    <string name="button_nastavLimit">NASTAVIT</string>
+    <string name="button_pridat">PŘIDAT</string>
+    <string name="button_prehled">PŘEHLED</string>
+    <string name="button_limit">LIMIT</string>
+    <string name="button_utraty">ÚTRATY</string>
+    <string name="overview_nadpis">PŘÍJMY A VÝDAJE</string>
+    <string name="overview_checkbox">Pouze pro aktuální měsíc</string>
+    <string name="button_predchRok">PŘEDCHOZÍ ROK</string>
+    <string name="button_nasledRok">NÁSLEDUJÍCÍ ROK</string>
+    <string name="updatedetails_nadpis">PODROBNOSTI</string>
+    <string name="button_smazatZaznam">SMAZAT</string>
+</resources>
